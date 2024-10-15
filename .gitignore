@@ -1,0 +1,5 @@
+/vendor/
+
+vendor/composer/installed.php
+composer.lock
+/vendor
