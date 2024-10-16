@@ -81,3 +81,143 @@ BEGIN
 END;
 
 $$ LANGUAGE plpgsql;
+
+
+----------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION obtenerExcusaMedica(id_curso BIGINT, fechaInicio DATE, fechaFin DATE
+)
+RETURNS TABLE(
+    course_id BIGINT, 
+    student_id BIGINT, 
+    full_attendance TEXT
+) 
+AS $$
+BEGIN
+    RETURN QUERY
+    
+    SELECT l.course_id, l.student_id, l.full_attendance
+    FROM mdl_local_asistencia_permanente l
+    WHERE l.course_id = id_curso
+    
+      AND EXISTS (
+          SELECT 1
+          FROM jsonb_array_elements(l.full_attendance::jsonb) AS asistencia
+          WHERE asistencia->>'ATTENDANCE' = '3'
+            AND (asistencia->>'DATE')::DATE BETWEEN fechaInicio AND fechaFin  -- Conversión de texto a fecha
+      );
+END;
+$$ LANGUAGE plpgsql;
+
+
+---------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION obtenerLlegadaTarde(id_curso BIGINT, fechaInicio DATE, fechaFin DATE
+)
+RETURNS TABLE(
+    course_id BIGINT, 
+    student_id BIGINT, 
+    full_attendance TEXT
+) 
+AS $$
+BEGIN
+    RETURN QUERY
+    
+    SELECT l.course_id, l.student_id, l.full_attendance
+    FROM mdl_local_asistencia_permanente l
+    WHERE l.course_id = id_curso
+    
+      AND EXISTS (
+          SELECT 1
+          FROM jsonb_array_elements(l.full_attendance::jsonb) AS asistencia
+          WHERE asistencia->>'ATTENDANCE' = '2'
+            AND (asistencia->>'DATE')::DATE BETWEEN fechaInicio AND fechaFin  -- Conversión de texto a fecha
+      );
+END;
+$$ LANGUAGE plpgsql;
+
+
+-------------------------------------------------------------------------------------
+
+
+CREATE OR REPLACE FUNCTION obtenerAsistencia(id_curso BIGINT, fechaInicio DATE, fechaFin DATE
+)
+RETURNS TABLE(
+    course_id BIGINT, 
+    student_id BIGINT, 
+    full_attendance TEXT
+) 
+AS $$
+BEGIN
+    RETURN QUERY
+    
+    SELECT l.course_id, l.student_id, l.full_attendance
+    FROM mdl_local_asistencia_permanente l
+    WHERE l.course_id = id_curso
+    
+      AND EXISTS (
+          SELECT 1
+          FROM jsonb_array_elements(l.full_attendance::jsonb) AS asistencia
+          WHERE asistencia->>'ATTENDANCE' = '1'
+            AND (asistencia->>'DATE')::DATE BETWEEN fechaInicio AND fechaFin  -- Conversión de texto a fecha
+      );
+END;
+$$ LANGUAGE plpgsql;
+
+
+---------------------------------------------------------------------------------------
+
+
+CREATE OR REPLACE FUNCTION obtenerInasistencia(id_curso BIGINT, fechaInicio DATE, fechaFin DATE
+)
+RETURNS TABLE(
+    course_id BIGINT, 
+    student_id BIGINT, 
+    full_attendance TEXT
+) 
+AS $$
+BEGIN
+    RETURN QUERY
+    
+    SELECT l.course_id, l.student_id, l.full_attendance
+    FROM mdl_local_asistencia_permanente l
+    WHERE l.course_id = id_curso
+    
+      AND EXISTS (
+          SELECT 1
+          FROM jsonb_array_elements(l.full_attendance::jsonb) AS asistencia
+          WHERE asistencia->>'ATTENDANCE' = '0'
+            AND (asistencia->>'DATE')::DATE BETWEEN fechaInicio AND fechaFin  -- Conversión de texto a fecha
+      );
+END;
+$$ LANGUAGE plpgsql;
+
+
+--------------------------------------------------------------------------------------------
+
+
+CREATE OR REPLACE FUNCTION obtenerSuspendidos(id_curso BIGINT, fechaInicio DATE, fechaFin DATE
+)
+RETURNS TABLE(
+    course_id BIGINT, 
+    student_id BIGINT, 
+    full_attendance TEXT
+) 
+AS $$
+BEGIN
+    RETURN QUERY
+    
+    SELECT l.course_id, l.student_id, l.full_attendance
+    FROM mdl_local_asistencia_permanente l
+    WHERE l.course_id = id_curso
+    
+      AND EXISTS (
+          SELECT 1
+          FROM jsonb_array_elements(l.full_attendance::jsonb) AS asistencia
+          WHERE asistencia->>'ATTENDANCE' = '-1'
+            AND (asistencia->>'DATE')::DATE BETWEEN fechaInicio AND fechaFin  -- Conversión de texto a fecha
+      );
+END;
+$$ LANGUAGE plpgsql;
+
+

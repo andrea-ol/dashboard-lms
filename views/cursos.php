@@ -8,6 +8,7 @@ require_once '../config/sofia_config.php';
 // Incluir el controlador necesario para gestionar las categorias
 require_once '../controllers/cursos_controller.php';
 
+
 session_start(); // Iniciar la sesión
 // Incluir el header de la página
 include '../header.php';
@@ -91,7 +92,7 @@ try {
                                             <button class="btn btn-success mt-2" type="button" id="consultarBtn">Consultar</button>
                                         </div>
                                     </form>
-                                    
+
                                 </div>
 
                                 <div>
