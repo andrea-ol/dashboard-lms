@@ -14,6 +14,13 @@
 </div>
 <!-- Custom JS -->
 
+<!-- Page level plugins -->
+<script src="vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="js/demo/chart-area-demo.js"></script>
+<script src="js/demo/chart-pie-demo.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/dashboard-lms/public/js/formacion.js"></script>
 <script src="/dashboard-lms/public/js/result_ap.js"></script>
@@ -29,7 +36,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- DataTables -->
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="/dashboard-lms/public/js/accessibility.js"></script>
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.1/js/dataTables.responsive.js"></script>
