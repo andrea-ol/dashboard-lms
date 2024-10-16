@@ -38,34 +38,50 @@ function mostrarInputs(cursoId) {
   }
 }
 
-$(document).ready(function () {
-  $('#consultarBtn').on('click', function () {
-    var id_curso = $('#cursoSelect').val();
-    var fechaInicio = $('#fechaInicio').val();
-    var fechaFin = $('#fechaFin').val();
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('consultarBtn').addEventListener('click', function () {
+    var id_curso = document.getElementById('cursoSelect').value;
+    var fechaInicio = document.getElementById('fechaInicio').value;
+    var fechaFin = document.getElementById('fechaFin').value;
+    
+    console.log(id_curso);
+    console.log(fechaInicio);
+    console.log(fechaFin);
 
     if (id_curso && fechaInicio && fechaFin) {
-      $.ajax({
-        url: 'controllers/consultas_controller.php',
-        type: 'POST',
-        data: {
-          id_curso: id_curso,
-          fechaInicio: fechaInicio,
-          fechaFin: fechaFin
-        },
-        success: function (response) {
-          console.log('Respuesta del servidor:', response);
-          // Aquí puedes manejar la respuesta
-        },
-        error: function (xhr, status, error) {
-          console.error('Error en la solicitud:', error);
+      // Configuración de los datos para enviar
+      var data = new URLSearchParams();
+      data.append('id_curso', id_curso);
+      data.append('fechaInicio', fechaInicio);
+      data.append('fechaFin', fechaFin);
+
+      // Realizar la solicitud con fetch
+      fetch('/dashboard-lms/controllers/consultas_controller.php', {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
         }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json(); // Asumiendo que el servidor devuelve JSON
+      })
+      .then(data => {
+        console.log('Respuesta del servidor:', data);
+        // Aquí puedes manejar la respuesta
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
       });
     } else {
       alert('Por favor, complete todos los campos.');
     }
   });
 });
+
 
 
 

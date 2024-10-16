@@ -91,7 +91,7 @@ try {
                                             <button class="btn btn-success mt-2" type="button" id="consultarBtn">Consultar</button>
                                         </div>
                                     </form>
-
+                                    
                                 </div>
 
                                 <div>
