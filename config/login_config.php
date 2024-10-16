@@ -23,7 +23,7 @@ try {
 
     // Verificar la expiración de la sesión por inactividad
     if (!checkSessionTimeout()) {
-        header("Location: /zajuna-ca-cr/");
+        header("Location: /zajuna/");
         exit();
     }
 
@@ -33,7 +33,7 @@ try {
     } elseif ($_SESSION['IP_ADDRESS'] !== $_SERVER['REMOTE_ADDR']) {
         session_unset();
         session_destroy();
-        header("Location: /zajuna-ca-cr/");
+        header("Location: /zajuna/");
         exit();
     }
 
@@ -43,7 +43,7 @@ try {
     } elseif ($_SESSION['USER_AGENT'] !== $_SERVER['HTTP_USER_AGENT']) {
         session_unset();
         session_destroy();
-        header("Location: /zajuna-ca-cr/");
+        header("Location: /zajuna/");
         exit();
     }
 
@@ -57,7 +57,7 @@ try {
         exit();
     } else {
         // Si la consulta no encuentra información o la conexión falla en la BD, redireccionar al usuario
-        header("Location: /zajuna-ca-cr/");
+        header("Location: /zajuna/");
         exit();
     }
 } catch (PDOException $e) {

@@ -6,7 +6,7 @@
 
 // Scripts redirección a zajuna
 function redirectToZajuna() {
-    window.location.href = `/zajuna-ca-cr/my/`;
+    window.location.href = `/zajuna/my/`;
 }
 // Script para manejar el evento "Leer más" y "Leer menos" en las tarjetas de categorias
 document.addEventListener("DOMContentLoaded", function () {

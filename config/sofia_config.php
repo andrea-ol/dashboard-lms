@@ -21,6 +21,6 @@ try {
 
     echo "Error al conectarse a la base de datos: " . $e->getMessage() . "\n";
     echo "<script>
-            window.location.href = '/lmsActividades/error/error_conexion.php';
+            window.location.href = '/dashboard-lms/error/error_conexion.php';
         </script>";
 }
