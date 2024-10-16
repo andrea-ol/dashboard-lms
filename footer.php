@@ -14,9 +14,10 @@
 </div>
 <!-- Custom JS -->
 
-<script src="/dashboard-lms/public/js/scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/dashboard-lms/public/js/formacion.js"></script>
 <script src="/dashboard-lms/public/js/result_ap.js"></script>
+<script src="/dashboard-lms/public/js/scripts.js"></script>
 
 <!-- Bootstrap -->
 <script src="/dashboard-lms/public/js/bootstrap.bundle.min.js"></script>
