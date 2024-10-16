@@ -64,31 +64,30 @@ try {
                             <div class="row">
 
                                 <!-- Default dropright button -->
-                                <div class="dropdown show">
-                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Cursos
-                                    </a>
-                                    <div class="dropdown-menu sm">
-                                        <!-- Dropdown menu links -->
-
+                                <div>
+                                    <select class="form-select" onchange="mostrarInputs(this.value)">
+                                        <option value="">Seleccione un curso</option>
                                         <?php
                                         $cursos = obtenerCursos($centroFormacion, $tipoFormacion);
 
                                         if (!empty($cursos)) {
                                             foreach ($cursos as $curso) {
                                                 $id_curso = $curso['id'];
-
-                                                // Convertir el timestamp a una fecha legible
-                                                $fechaInicioLegible = date("Y-m-d", $curso['fecha_inicio']);
-                                                $fechaFinLegible = date("Y-m-d", $curso['fecha_fin']);
-
-                                                //echo "Fecha de inicio: " . $fechaInicioLegible . "<br>";
-                                                echo '<a class="dropdown-item" href="#">' . $curso['fullname'] . '</a>';
+                                                echo '<option value="' . $id_curso . '">' . $curso['fullname'] . '</option>';
                                             }
                                         } else {
-                                            echo  "No se encontraron cursos.";
+                                            echo '<option value="">No se encontraron cursos</option>';
                                         }
                                         ?>
+                                    </select>
+
+                                    <!-- Inputs de tipo time que se mostrarán después de seleccionar un curso -->
+                                    <div class="col-sm-2 col-form-label" id="inputsTime" style="display: none;">
+                                        <label for="horaInicio">Hora de inicio:</label>
+                                        <input type="date" id="horaInicio" name="horaInicio">
+
+                                        <label for="horaFin">Hora de fin:</label>
+                                        <input type="date" id="horaFin" name="horaFin">
                                     </div>
                                 </div>
 
