@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .then(data => {
         console.log('Respuesta del servidor:', data);
+        
         // Aquí puedes manejar la respuesta
       })
       .catch(error => {

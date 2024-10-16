@@ -11,24 +11,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validar que los datos se hayan recibido
     if ($id_curso && $fechaInicio && $fechaFin) {
         // Aquí puedes realizar las operaciones que necesites, como consultas a la base de datos
-        $varchar = '9723';
-        $stmt = $conn->prepare(query: "SELECT * FROM obtenerExcusaMedica(:id_curso, :fechaI, :fechaF)");
-        $stmt->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
-        $stmt->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
-        $stmt->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
-        $stmt->execute();
-        $excusaMedica = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        /////////////////////////////
+        //Ojito cambiar a $id_curso
+        $varchar = '9723';
+        ////////////////////////////
+
+        $excusa = $conn->prepare(query: "SELECT COUNT (*) FROM obtenerExcusaMedica(:id_curso, :fechaI, :fechaF)");
+        $excusa->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
+        $excusa->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
+        $excusa->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
+        $excusa->execute();
+        $excusaMedica = $excusa->fetchAll(PDO::FETCH_ASSOC);
+
+        $tarde = $conn->prepare(query: "SELECT COUNT (*) FROM obtenerLlegadaTarde(:id_curso, :fechaI, :fechaF)");
+        $tarde->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
+        $tarde->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
+        $tarde->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
+        $tarde->execute();
+        $llegadaTarde = $tarde->fetchAll(PDO::FETCH_ASSOC);
+
+        $asis = $conn->prepare(query: "SELECT COUNT (*) FROM obtenerAsistencia(:id_curso, :fechaI, :fechaF)");
+        $asis->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
+        $asis->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
+        $asis->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
+        $asis->execute();
+        $asistencia = $asis->fetchAll(PDO::FETCH_ASSOC);
+
+        $inasis = $conn->prepare(query: "SELECT COUNT (*) FROM obtenerInasistencia(:id_curso, :fechaI, :fechaF)");
+        $inasis->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
+        $inasis->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
+        $inasis->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
+        $inasis->execute();
+        $inasistencia = $inasis->fetchAll(PDO::FETCH_ASSOC);
+
+        $suspen = $conn->prepare(query: "SELECT COUNT (*) FROM obtenerSuspendidos(:id_curso, :fechaI, :fechaF)");
+        $suspen->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
+        $suspen->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
+        $suspen->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
+        $suspen->execute();
+        $suspendido = $suspen->fetchAll(PDO::FETCH_ASSOC);
 
         // Ejemplo: Imprimir los datos recibidos
         $response = [
             'success' => true,
             'message' => 'Datos recibidos correctamente.',
             'data' => [
-                'id_curso' => $id_curso,
-                'fechaInicio' => $fechaInicio,
-                'fechaFin' => $fechaFin,
-                'ExcusaMedica' => $excusaMedica
+                'excusaMedica' => $excusaMedica,
+                'llegadaTarde' => $llegadaTarde,
+                'asistencia' => $asistencia,
+                'inasistencia' => $inasistencia,
+                'suspendido' => $suspendido
             ]
         ];
     } else {
