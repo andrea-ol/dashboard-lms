@@ -1,4 +1,5 @@
 <?php
+require '../vendor/autoload.php';
 // Use para aplicar Dotenv variables de entorno
 use Dotenv\Dotenv;
 // Cargar variables de entorno desde .env

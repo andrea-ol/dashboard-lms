@@ -11,9 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validar que los datos se hayan recibido
     if ($id_curso && $fechaInicio && $fechaFin) {
         // Aquí puedes realizar las operaciones que necesites, como consultas a la base de datos
-
-        $stmt = $conn->prepare("SELECT * FROM obtenerExcusaMedica(:id_curso, :fechaI, :fechaF)");
-        $stmt->bindParam(':id_curso', $id_curso, PDO::PARAM_INT);
+        $varchar = '9723';
+        $stmt = $conn->prepare(query: "SELECT * FROM obtenerExcusaMedica(:id_curso, :fechaI, :fechaF)");
+        $stmt->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
         $stmt->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
         $stmt->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
         $stmt->execute();
@@ -27,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'data' => [
                 'id_curso' => $id_curso,
                 'fechaInicio' => $fechaInicio,
-                'fechaFin' => $fechaFin
+                'fechaFin' => $fechaFin,
+                'ExcusaMedica' => $excusaMedica
             ]
         ];
     } else {
