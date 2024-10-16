@@ -22,6 +22,7 @@
 <script src="js/demo/chart-pie-demo.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/dashboard-lms/public/js/formacion.js"></script>
 <script src="/dashboard-lms/public/js/result_ap.js"></script>
 <script src="/dashboard-lms/public/js/scripts.js"></script>

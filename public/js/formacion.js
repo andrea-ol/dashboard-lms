@@ -29,16 +29,43 @@ new Chart(ctx, {
   }
 });
 
-
 function mostrarInputs(cursoId) {
-  if (cursoId !== "") {
-    // Mostrar los inputs de tipo time
-    document.getElementById('inputsTime').style.display = 'block';
+  var inputsTime = document.getElementById('inputsTime');
+  if (cursoId) {
+    inputsTime.style.display = 'block';
   } else {
-    // Ocultar los inputs de tipo time si no se selecciona ningún curso
-    document.getElementById('inputsTime').style.display = 'none';
+    inputsTime.style.display = 'none';
   }
 }
+
+$(document).ready(function () {
+  $('#consultarBtn').on('click', function () {
+    var id_curso = $('#cursoSelect').val();
+    var fechaInicio = $('#fechaInicio').val();
+    var fechaFin = $('#fechaFin').val();
+
+    if (id_curso && fechaInicio && fechaFin) {
+      $.ajax({
+        url: 'controllers/consultas_controller.php',
+        type: 'POST',
+        data: {
+          id_curso: id_curso,
+          fechaInicio: fechaInicio,
+          fechaFin: fechaFin
+        },
+        success: function (response) {
+          console.log('Respuesta del servidor:', response);
+          // Aquí puedes manejar la respuesta
+        },
+        error: function (xhr, status, error) {
+          console.error('Error en la solicitud:', error);
+        }
+      });
+    } else {
+      alert('Por favor, complete todos los campos.');
+    }
+  });
+});
 
 
 

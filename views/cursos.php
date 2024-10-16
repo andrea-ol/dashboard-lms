@@ -65,30 +65,33 @@ try {
 
                                 <!-- Default dropright button -->
                                 <div>
-                                    <select class="form-select" onchange="mostrarInputs(this.value)">
-                                        <option value="">Seleccione un curso</option>
-                                        <?php
-                                        $cursos = obtenerCursos($centroFormacion, $tipoFormacion);
+                                    <form id="cursoForm">
+                                        <select id="cursoSelect" class="form-select" onchange="mostrarInputs(this.value)">
+                                            <option value="">Seleccione un curso</option>
+                                            <?php
+                                            $cursos = obtenerCursos($centroFormacion, $tipoFormacion);
 
-                                        if (!empty($cursos)) {
-                                            foreach ($cursos as $curso) {
-                                                $id_curso = $curso['id'];
-                                                echo '<option value="' . $id_curso . '">' . $curso['fullname'] . '</option>';
+                                            if (!empty($cursos)) {
+                                                foreach ($cursos as $curso) {
+                                                    $id_curso = $curso['id'];
+                                                    echo '<option value="' . $id_curso . '">' . htmlspecialchars($curso['fullname']) . '</option>';
+                                                }
+                                            } else {
+                                                echo '<option value="">No se encontraron cursos</option>';
                                             }
-                                        } else {
-                                            echo '<option value="">No se encontraron cursos</option>';
-                                        }
-                                        ?>
-                                    </select>
+                                            ?>
+                                        </select>
 
-                                    <!-- Inputs de tipo time que se mostrarán después de seleccionar un curso -->
-                                    <div class="col-sm-2 col-form-label" id="inputsTime" style="display: none;">
-                                        <label for="horaInicio">Hora de inicio:</label>
-                                        <input type="date" id="horaInicio" name="horaInicio">
+                                        <!-- Inputs de tipo time que se mostrarán después de seleccionar un curso -->
+                                        <div class="col-sm-2 col-form-label" id="inputsTime" style="display: none;">
+                                            <label for="fechaInicio">Fecha de inicio:</label>
+                                            <input type="date" id="fechaInicio" name="fechaInicio">
+                                            <label for="fechaFin">Fecha de fin:</label>
+                                            <input type="date" id="fechaFin" name="fechaFin">
+                                            <button class="btn btn-success mt-2" type="button" id="consultarBtn">Consultar</button>
+                                        </div>
+                                    </form>
 
-                                        <label for="horaFin">Hora de fin:</label>
-                                        <input type="date" id="horaFin" name="horaFin">
-                                    </div>
                                 </div>
 
                                 <div>
