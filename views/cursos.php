@@ -63,17 +63,34 @@ try {
                             <!-- Ajuste cards categorias -->
                             <div class="row">
 
-                                <?php
-                                $cursos = obtenerCursos($centroFormacion, $tipoFormacion);
+                                <!-- Default dropright button -->
+                                <div class="dropdown show">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Cursos
+                                    </a>
+                                    <div class="dropdown-menu sm">
+                                        <!-- Dropdown menu links -->
 
-                                if (is_array($cursos)) {
-                                    foreach ($cursos as $curso) {
-                                        echo  $curso['fullname'] . "<br>";
-                                    }
-                                } else {
-                                    echo $cursos; // Mensaje de error o "No se encontraron cursos."
-                                }
-                                ?>
+                                        <?php
+                                        $cursos = obtenerCursos($centroFormacion, $tipoFormacion);
+
+                                        if (!empty($cursos)) {
+                                            foreach ($cursos as $curso) {
+                                                $id_curso = $curso['id'];
+
+                                                // Convertir el timestamp a una fecha legible
+                                                $fechaInicioLegible = date("Y-m-d", $curso['fecha_inicio']);
+                                                $fechaFinLegible = date("Y-m-d", $curso['fecha_fin']);
+
+                                                //echo "Fecha de inicio: " . $fechaInicioLegible . "<br>";
+                                                echo '<a class="dropdown-item" href="#">' . $curso['fullname'] . '</a>';
+                                            }
+                                        } else {
+                                            echo  "No se encontraron cursos.";
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -60,19 +60,20 @@ LANGUAGE 'plpgsql';
 
 ---------------------------------------------------------------------------------------------
 
-
 CREATE OR REPLACE FUNCTION obtenerCursos(centroformacion VARCHAR, tipoformacion VARCHAR)
 RETURNS TABLE (
     id BIGINT,
-    fullname TEXT,
-    shortname TEXT,
-    idnumber TEXT,
-    categoria TEXT
+    fullname VARCHAR,
+    shortname VARCHAR,
+    idnumber VARCHAR,
+    categoria VARCHAR,
+    fecha_inicio BIGINT,
+    fecha_fin BIGINT
 ) AS $$
 
 BEGIN
     RETURN QUERY
-    SELECT c.id, c.fullname, c.shortname, c.idnumber, cc.name
+    SELECT c.id, c.fullname, c.shortname, c.idnumber, cc.name, c.startdate, c.enddate
     FROM mdl_course c
     JOIN mdl_course_categories cc ON cc.id = c.category
     WHERE c.shortname LIKE '%' || centroformacion || '%' 
