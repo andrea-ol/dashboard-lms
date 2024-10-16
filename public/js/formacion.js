@@ -65,6 +65,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const suspendidoCount = data.data.suspendido[0].count;
             const total_estudiantes = data.data.estudiantes;
 
+            // Selecciona el elemento h2 y actualiza su contenido
+            document.getElementById('estudiantesCount').innerText = `Total Estudiantes: ${total_estudiantes}`;
+
 
             // Crear la gráfica con los valores obtenidos
             const ctx = document.getElementById('myChart').getContext('2d');
@@ -73,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
               data: {
                 labels: ['Excusa Médica', 'Llegada Tarde', 'Asistencia', 'Inasistencia', 'Suspendido'],
                 datasets: [{
-                  label: 'Conteo de Asistencia',
+                  label: 'Control de Asistencia',
                   data: [excusaMedicaCount, llegadaTardeCount, asistenciaCount, inasistenciaCount, suspendidoCount],
                   backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',

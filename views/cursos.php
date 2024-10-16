@@ -86,21 +86,23 @@ try {
                                                     }
 
 
-                                                    
+
                                                     ?>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group row" id="inputsTime" style="display: none;">
-                                            <div class="form-group col-md-4">
-                                                <label for="fechaInicio" class="col-sm-2 col-form-label">Fecha de inicio:</label>
+
+
+                                        <div class="form-row" id="inputsTime" style="display: none;">
+                                            <div class="col-md-3 mb-3">
+                                                <label for="fechaInicio">Fecha de inicio:</label>
                                                 <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
                                             </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="fechaFin" class="col-sm-2 col-form-label">Fecha de fin:</label>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="fechaFin">Fecha de fin:</label>
                                                 <input type="date" class="form-control" id="fechaFin" name="fechaFin">
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div class="col-md-4 mb-3">
                                                 <button class="btn btn-success mt-2" type="button" id="consultarBtn">Consultar</button>
                                             </div>
                                         </div>
@@ -111,6 +113,9 @@ try {
                             <!-- Control de asistencias -->
                             <div class="row" id="cardschart" style="display: none;">
 
+                                <div>
+                                    <h2 id="estudiantesCount"><span class="badge badge-secondary">New</span></h2>
+                                </div>
                                 <div class="col-xl-10 col-lg-8">
                                     <!-- Area Chart -->
                                     <div class="card shadow mb-4">
