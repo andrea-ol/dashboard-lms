@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         /////////////////////////////
         //Ojito cambiar a $id_curso
-        $varchar = '9723';
+        $varchar = 9723;
         ////////////////////////////
 
         $excusa = $conn->prepare(query: "SELECT COUNT (*) FROM obtenerExcusaMedica(:id_curso, :fechaI, :fechaF)");
@@ -52,6 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $suspen->execute();
         $suspendido = $suspen->fetchAll(PDO::FETCH_ASSOC);
 
+        $usuarios = $conn->prepare("SELECT obtenerUsuarios(:id_curso) AS total_estudiantes");
+        $usuarios->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
+        $usuarios->execute();
+        $usuario = $usuarios->fetch(PDO::FETCH_ASSOC);
+        $total_estudiantes = $usuario['total_estudiantes'];
+
+
         // Ejemplo: Imprimir los datos recibidos
         $response = [
             'success' => true,
@@ -61,7 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'llegadaTarde' => $llegadaTarde,
                 'asistencia' => $asistencia,
                 'inasistencia' => $inasistencia,
-                'suspendido' => $suspendido
+                'suspendido' => $suspendido,
+                'estudiantes' => $total_estudiantes
             ]
         ];
     } else {

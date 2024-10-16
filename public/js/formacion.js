@@ -25,9 +25,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var fechaInicio = document.getElementById('fechaInicio').value;
     var fechaFin = document.getElementById('fechaFin').value;
 
-    console.log(id_curso);
-    console.log(fechaInicio);
-    console.log(fechaFin);
+    var cardschart = document.getElementById('cardschart');
+    if (id_curso) {
+      cardschart.style.display = 'block';
+    } else {
+      cardschart.style.display = 'none';
+    }
 
     if (id_curso && fechaInicio && fechaFin) {
       // Configuración de los datos para enviar
@@ -60,44 +63,46 @@ document.addEventListener('DOMContentLoaded', function () {
             const asistenciaCount = data.data.asistencia[0].count;
             const inasistenciaCount = data.data.inasistencia[0].count;
             const suspendidoCount = data.data.suspendido[0].count;
-    
+            const total_estudiantes = data.data.estudiantes;
+
+
             // Crear la gráfica con los valores obtenidos
             const ctx = document.getElementById('myChart').getContext('2d');
             new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Excusa Médica', 'Llegada Tarde', 'Asistencia', 'Inasistencia', 'Suspendido'],
-                    datasets: [{
-                        label: 'Conteo de Asistencia',
-                        data: [excusaMedicaCount, llegadaTardeCount, asistenciaCount, inasistenciaCount, suspendidoCount],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',   
-                            'rgba(54, 162, 235, 0.2)',   
-                            'rgba(75, 192, 192, 0.2)',   
-                            'rgba(153, 102, 255, 0.2)',  
-                            'rgba(255, 159, 64, 0.2)'    
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
+              type: 'bar',
+              data: {
+                labels: ['Excusa Médica', 'Llegada Tarde', 'Asistencia', 'Inasistencia', 'Suspendido'],
+                datasets: [{
+                  label: 'Conteo de Asistencia',
+                  data: [excusaMedicaCount, llegadaTardeCount, asistenciaCount, inasistenciaCount, suspendidoCount],
+                  backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
                 }
+              }
             });
-        } else {
+          } else {
             console.error('Error en la respuesta del servidor:', data.message);
-        }
+          }
 
           // Aquí puedes manejar la respuesta
         })

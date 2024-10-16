@@ -61,43 +61,102 @@ try {
                                 <li class="m-2"><strong>Bienvenido/a</strong> <?php echo mb_strtoupper($user->firstname . ' ' . $user->lastname, 'UTF-8'); ?>
                                 </li>
                             </ol>
-                            <!-- Ajuste cards categorias -->
-                            <div class="row">
 
+                            <!-- Ajuste cards charts -->
+                            <div class="row">
                                 <!-- Default dropright button -->
                                 <div>
                                     <form id="cursoForm">
-                                        <select id="cursoSelect" class="form-select" onchange="mostrarInputs(this.value)">
-                                            <option value="">Seleccione un curso</option>
-                                            <?php
-                                            $cursos = obtenerCursos($centroFormacion, $tipoFormacion);
 
-                                            if (!empty($cursos)) {
-                                                foreach ($cursos as $curso) {
-                                                    $id_curso = $curso['id'];
-                                                    echo '<option value="' . $id_curso . '">' . htmlspecialchars($curso['fullname']) . '</option>';
-                                                }
-                                            } else {
-                                                echo '<option value="">No se encontraron cursos</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                        <div class="form-group row">
+                                            <label for="staticEmail" class="col-sm-2 col-form-label">Curso</label>
+                                            <div class="col-sm-10">
+                                                <select id="cursoSelect" class="form-select" onchange="mostrarInputs(this.value)">
+                                                    <option value="">Seleccione un curso</option>
+                                                    <?php
+                                                    $cursos = obtenerCursos($centroFormacion, $tipoFormacion);
 
-                                        <!-- Inputs de tipo time que se mostrarán después de seleccionar un curso -->
-                                        <div class="col-sm-2 col-form-label" id="inputsTime" style="display: none;">
-                                            <label for="fechaInicio">Fecha de inicio:</label>
-                                            <input type="date" id="fechaInicio" name="fechaInicio">
-                                            <label for="fechaFin">Fecha de fin:</label>
-                                            <input type="date" id="fechaFin" name="fechaFin">
-                                            <button class="btn btn-success mt-2" type="button" id="consultarBtn">Consultar</button>
+                                                    if (!empty($cursos)) {
+                                                        foreach ($cursos as $curso) {
+                                                            $id_curso = $curso['id'];
+                                                            echo '<option value="' . $id_curso . '">' . htmlspecialchars($curso['fullname']) . '</option>';
+                                                        }
+                                                    } else {
+                                                        echo '<option value="">No se encontraron cursos</option>';
+                                                    }
+
+
+                                                    
+                                                    ?>
+                                                </select>
+                                            </div>
                                         </div>
+                                        <div class="form-group row" id="inputsTime" style="display: none;">
+                                            <div class="form-group col-md-4">
+                                                <label for="fechaInicio" class="col-sm-2 col-form-label">Fecha de inicio:</label>
+                                                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="fechaFin" class="col-sm-2 col-form-label">Fecha de fin:</label>
+                                                <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <button class="btn btn-success mt-2" type="button" id="consultarBtn">Consultar</button>
+                                            </div>
+                                        </div>
+                                        <!-- Inputs de tipo time que se mostrarán después de seleccionar un curso -->
                                     </form>
+                                </div>
+                            </div>
+                            <!-- Control de asistencias -->
+                            <div class="row" id="cardschart" style="display: none;">
+
+                                <div class="col-xl-10 col-lg-8">
+                                    <!-- Area Chart -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-header py-4">
+                                            <h6 class="m-0 font-weight-bold text-primary">Control de asistencias</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="chart-area">
+                                                <canvas id="myChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bar Chart -->
+                                    <div class="card shadow mb-4">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="chart-bar">
+                                                <canvas id="myBarChart"></canvas>
+                                            </div>
+
+                                        </div>
+                                    </div>
 
                                 </div>
 
-                                <div>
-                                    <canvas id="myChart"></canvas>
+                                <!-- Donut Chart -->
+                                <div class="col-xl-4 col-lg-5">
+                                    <div class="card shadow mb-4">
+                                        <!-- Card Header - Dropdown -->
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary">Donut Chart</h6>
+                                        </div>
+                                        <!-- Card Body -->
+                                        <div class="card-body">
+                                            <div class="chart-pie pt-4">
+                                                <canvas id="myPieChart"></canvas>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

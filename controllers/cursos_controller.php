@@ -38,3 +38,5 @@ function obtenerCursos($centroFormacion, $tipoFormacion)
         exit();
     }
 }
+
+

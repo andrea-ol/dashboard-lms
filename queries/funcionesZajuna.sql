@@ -221,3 +221,37 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+----------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION obtenerUsuarios(course BIGINT)
+RETURNS BIGINT AS
+$$
+DECLARE
+    total_estudiantes BIGINT;
+BEGIN
+    -- Contar el número total de estudiantes en el curso especificado
+    SELECT COUNT(*)
+    INTO total_estudiantes
+    FROM mdl_user u
+    JOIN mdl_user_enrolments ue ON u.id = ue.userid
+    JOIN mdl_enrol e ON ue.enrolid = e.id
+    JOIN mdl_context ctx ON e.courseid = ctx.instanceid AND ctx.contextlevel = 50
+    JOIN mdl_role_assignments ra ON u.id = ra.userid AND ra.contextid = ctx.id
+    JOIN mdl_role r ON ra.roleid = r.id
+    WHERE e.courseid = course 
+      AND r.shortname = 'student'
+      AND u.id NOT IN (
+          SELECT u2.id
+          FROM mdl_user u2
+          JOIN mdl_role_assignments ra2 ON u2.id = ra2.userid
+          JOIN mdl_role r2 ON ra2.roleid = r2.id
+          JOIN mdl_context ctx2 ON ra2.contextid = ctx2.id
+          WHERE ctx2.instanceid = e.courseid
+          AND r2.shortname IN ('editingteacher', 'teacher')
+      );
+
+    -- Retornar el total de estudiantes
+    RETURN total_estudiantes;
+END;
+$$
+LANGUAGE 'plpgsql';
