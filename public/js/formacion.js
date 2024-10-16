@@ -10,25 +10,6 @@ function redirectCursos(centroFormacion, tipoFormacion) {
 
 const ctx = document.getElementById('myChart');
 
-new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  }
-});
-
 function mostrarInputs(cursoId) {
   var inputsTime = document.getElementById('inputsTime');
   if (cursoId) {
@@ -43,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var id_curso = document.getElementById('cursoSelect').value;
     var fechaInicio = document.getElementById('fechaInicio').value;
     var fechaFin = document.getElementById('fechaFin').value;
-    
+
     console.log(id_curso);
     console.log(fechaInicio);
     console.log(fechaFin);
@@ -63,20 +44,66 @@ document.addEventListener('DOMContentLoaded', function () {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+          return response.json(); // Asumiendo que el servidor devuelve JSON
+        })
+        .then(data => {
+          console.log('Respuesta del servidor:', data);
+
+          if (data.success) {
+            // Extraer los valores de count de cada parámetro
+            const excusaMedicaCount = data.data.excusaMedica[0].count;
+            const llegadaTardeCount = data.data.llegadaTarde[0].count;
+            const asistenciaCount = data.data.asistencia[0].count;
+            const inasistenciaCount = data.data.inasistencia[0].count;
+            const suspendidoCount = data.data.suspendido[0].count;
+    
+            // Crear la gráfica con los valores obtenidos
+            const ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Excusa Médica', 'Llegada Tarde', 'Asistencia', 'Inasistencia', 'Suspendido'],
+                    datasets: [{
+                        label: 'Conteo de Asistencia',
+                        data: [excusaMedicaCount, llegadaTardeCount, asistenciaCount, inasistenciaCount, suspendidoCount],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',   
+                            'rgba(54, 162, 235, 0.2)',   
+                            'rgba(75, 192, 192, 0.2)',   
+                            'rgba(153, 102, 255, 0.2)',  
+                            'rgba(255, 159, 64, 0.2)'    
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        } else {
+            console.error('Error en la respuesta del servidor:', data.message);
         }
-        return response.json(); // Asumiendo que el servidor devuelve JSON
-      })
-      .then(data => {
-        console.log('Respuesta del servidor:', data);
-        
-        // Aquí puedes manejar la respuesta
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
-      });
+
+          // Aquí puedes manejar la respuesta
+        })
+        .catch(error => {
+          console.error('Error en la solicitud:', error);
+        });
     } else {
       alert('Por favor, complete todos los campos.');
     }
