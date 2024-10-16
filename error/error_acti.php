@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="/lms-califica/public/assets/img/head-sena.svg">
+  <link rel="icon" type="image/png" href="/dashboard-lms/public/assets/img/head-sena.svg">
   <title>Error-Centro</title>
 </head>
 <style>

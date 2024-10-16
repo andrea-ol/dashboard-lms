@@ -5,10 +5,10 @@
 */
 
 // Scripts redirección a zajuna
-function redirectToZajuna(id_curso) {
-    window.location.href = `/zajuna/course/view.php?id=${encodeURIComponent(id_curso)}`;
+function redirectToZajuna() {
+    window.location.href = `/zajuna-ca-cr/my/`;
 }
-// Script para manejar el evento "Leer más" y "Leer menos" en las tarjetas de competencias
+// Script para manejar el evento "Leer más" y "Leer menos" en las tarjetas de categorias
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.read-more-comp').forEach(function (button) {
         button.addEventListener('click', function (event) {

@@ -4987,7 +4987,7 @@ fieldset:disabled .btn {
 
 }
 
-#competencias-card,
+#categorias-card,
 #resultadoap-card,
 #vistaap-card,
 #actividades-card {
@@ -5062,7 +5062,7 @@ fieldset:disabled .btn {
 
   width: 30px;
   height: 24px;
-  background-image: url('/lms-califica/public/assets/img/ojito.webp');
+  background-image: url('/dashboard-lms/public/assets/img/ojito.webp');
   background-size: contain;
   /* Ajusta la imagen para que se contenga dentro del elemento */
   background-repeat: no-repeat;
@@ -5084,7 +5084,7 @@ fieldset:disabled .btn {
   margin-left: 1em;
   width: 30px;
   height: 24px;
-  background-image: url('/lms-califica/public/assets/img/ojitocerrado.svg');
+  background-image: url('/dashboard-lms/public/assets/img/ojitocerrado.svg');
   /* Reemplaza con la URL de la imagen para el hover */
 }
 
@@ -8981,8 +8981,9 @@ fieldset:disabled .btn {
 
 .icono-con-texto:hover .change-color,
 .icono-con-texto:hover #icono-evaluacion {
-color: #39a900
+  color: #39a900
 }
+
 /* AJUSTE PARA DIV GENERADO POR DATATABLES - PERMITE DISPLAY FLEX EN BOTONES DE EXPORTACION */
 /*.dt-buttons {
   display: flex;
@@ -13696,6 +13697,7 @@ tr:nth-child(odd) td {
   border-radius: 0.375rem !important;
 
 }
+
 .fixed-size-card {
   /* Altura fija para todas las tarjetas */
   height: 350px;
@@ -13820,10 +13822,13 @@ tr:nth-child(odd) td {
 .accessibility-options .option:hover a {
   color: #39a900;
 }
+
 .accessibility-active .accessibility-btn {
   background-color: #28a745;
   color: white;
 }
+
 .modified {
-  background-color: yellow; /* Cambia el color según tu preferencia */
+  background-color: yellow;
+  /* Cambia el color según tu preferencia */
 }

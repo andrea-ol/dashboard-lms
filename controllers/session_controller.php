@@ -9,8 +9,8 @@ function checkSessionTimeout()
     // TENER PRESENTE PARA SESION USANDO PUERTO SEGURO
     // $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-    // Verificar si la URL actual pertenece a 'localhost/lms-califica/'
-    if (strpos($current_url, '/lms-califica/') !== false) {
+    // Verificar si la URL actual pertenece a 'localhost/dashboard-lms/'
+    if (strpos($current_url, '/dashboard-lms/') !== false) {
         // Verificar si el tiempo de inactividad ha excedido el límite
         if (isset($_SESSION['LAST_ACTIVITY'])) {
             $elapsed_time = time() - $_SESSION['LAST_ACTIVITY'];
@@ -21,7 +21,7 @@ function checkSessionTimeout()
                 session_destroy();   // destroy session data in storage
                 echo "<script>
                 localStorage.clear();
-                window.location.href = '/lms-califica/error/error.php';
+                window.location.href = '/dashboard-lms/error/error.php';
                 </script>";
                 return false; // Indica que la sesión ha expirado
             }
@@ -31,7 +31,7 @@ function checkSessionTimeout()
         $_SESSION['LAST_ACTIVITY'] = time(); // Actualiza la marca de tiempo de la última actividad
         return true; // Indica que la sesión sigue activa
     } else {
-        // Si la URL no pertenece a 'localhost/lms-califica/', evaluar el tiempo de inactividad
+        // Si la URL no pertenece a 'localhost/dashboard-lms/', evaluar el tiempo de inactividad
         if (isset($_SESSION['LAST_ACTIVITY'])) {
             $elapsed_time = time() - $_SESSION['LAST_ACTIVITY'];
 
@@ -41,7 +41,7 @@ function checkSessionTimeout()
                 session_destroy();   // destroy session data in storage
                 echo "<script>
                 localStorage.clear();
-                window.location.href = '/lms-califica/error/error.php';
+                window.location.href = '/dashboard-lms/error/error.php';
                 </script>";
                 return false; // Indica que la sesión ha expirado
             }

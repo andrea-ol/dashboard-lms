@@ -42,11 +42,11 @@ document.addEventListener('DOMContentLoaded', function () {
     createPopovers('.thead_resultadoap', '../../public/assets/img/lenguaje.gif');
     createPopovers('.lang_sign_resultados', '../../public/assets/img/lenguaje-senas.gif');
     createPopovers('.thead_resultados', '../../public/assets/img/lenguaje.gif');
-    createPopovers('.item-nav, .option_nav', '/lms-califica/public/assets/img/header-acces.webp');
-    createPopovers('.btn-excel', '/lms-califica/public/assets/img/excel.gif');
-    createPopovers('.btn-csv', '/lms-califica/public/assets/img/csv.gif');
-    createPopovers('.btn-pdf', '/lms-califica/public/assets/img/pdf.gif');
-    createPopovers('.restart', '/lms-califica/public/assets/img/restart.gif');
+    createPopovers('.item-nav, .option_nav', '/dashboard-lms/public/assets/img/header-acces.webp');
+    createPopovers('.btn-excel', '/dashboard-lms/public/assets/img/excel.gif');
+    createPopovers('.btn-csv', '/dashboard-lms/public/assets/img/csv.gif');
+    createPopovers('.btn-pdf', '/dashboard-lms/public/assets/img/pdf.gif');
+    createPopovers('.restart', '/dashboard-lms/public/assets/img/restart.gif');
 
 
   }

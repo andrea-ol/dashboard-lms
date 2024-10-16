@@ -37,8 +37,8 @@ function decodeBase64(str) {
   return atob(str);
 }
 /* Funciòn de redirecciòn la pagina de resultadoap -> compotencias */
-function redirectToCompetencias(encoded_curso) {
-  window.location.href = `../competencias.php?idnumber=${encoded_curso}`;
+function redirectToCategorias(centroFormacion) {
+  window.location.href = `./categorias.php?C=${centroFormacion}`;
 }
 
 function cleanText(text) {
@@ -57,12 +57,12 @@ function toSentenceCase(text) {
   );
 }
 
-/* Funciòn de redirecciòn la pagina de Competencias -> resultadoap */
-function redirectComToResultados(encoded_ficha, encoded_competencia) {
-  const urlParams = `id_ficha=${encoded_ficha}&id_competencia=${encoded_competencia}`;
-  const encodedParams = encodeBase64(urlParams);
-  window.location.href = `../views/resultados/resultadoap.php?params=${encodedParams}`;
+/* Función de redirección a la página de Competencias -> resultadoap */
+function redirectCursos(centroFormacion, tipoFormacion) {
+  window.location.href = `../views/cursos.php?C=${centroFormacion}&F=${tipoFormacion}`;
 }
+
+
 
 /* Funciòn de redirecciòn la pagina de resultadoap -> resultado */
 function redirectToResultado(encoded_curso, encoded_competencia, encode_rea) {
