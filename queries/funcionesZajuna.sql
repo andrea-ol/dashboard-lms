@@ -66,6 +66,7 @@ RETURNS TABLE (
     fullname VARCHAR,
     shortname VARCHAR,
     idnumber VARCHAR,
+    idcate BIGINT,
     categoria VARCHAR,
     fecha_inicio BIGINT,
     fecha_fin BIGINT
@@ -73,7 +74,7 @@ RETURNS TABLE (
 
 BEGIN
     RETURN QUERY
-    SELECT c.id, c.fullname, c.shortname, c.idnumber, cc.name, c.startdate, c.enddate
+    SELECT c.id, c.fullname, c.shortname, c.idnumber, c.category, cc.name, c.startdate, c.enddate
     FROM mdl_course c
     JOIN mdl_course_categories cc ON cc.id = c.category
     WHERE c.shortname LIKE '%' || centroformacion || '%' 

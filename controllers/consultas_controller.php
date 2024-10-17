@@ -1,6 +1,7 @@
 <?php
 // consultas_controller.php
 require '../config/db_config.php';
+require '../config/sofia_config.php';
 // Verificar si la solicitud es POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtener los datos del formulario
