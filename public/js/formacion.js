@@ -10,9 +10,10 @@ function redirectCursos(centroFormacion, tipoFormacion) {
 
 const ctx = document.getElementById('myChart');
 
-function mostrarInputs(cursoId) {
+function mostrarInputs() {
+
   var inputsTime = document.getElementById('inputsTime');
-  if (cursoId) {
+  if (inputsTime) {
     inputsTime.style.display = 'block';
   } else {
     inputsTime.style.display = 'none';
@@ -21,7 +22,14 @@ function mostrarInputs(cursoId) {
 
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('consultarBtn').addEventListener('click', function () {
-    var id_curso = document.getElementById('cursoSelect').value;
+    var select = document.getElementById('cursoSelect');
+    var selectedOption = select.options[select.selectedIndex];
+    // Obtener el value de la opción seleccionada
+    var id_curso = selectedOption.value;
+    // Obtener los atributos de la opción seleccionada
+    var fecha = selectedOption.getAttribute('data-fecha');
+    var categoria = selectedOption.getAttribute('data-categoria');
+    console.log(id_curso);
     var fechaInicio = document.getElementById('fechaInicio').value;
     var fechaFin = document.getElementById('fechaFin').value;
 
@@ -72,6 +80,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const total_foros = data.data.foros[0].obtenerparticipacionforum;
             const total_wikis = data.data.wikis[0].obtenerparticipacionwiki;
 
+            const aprendices = total_estudiantes - total_suspendidos;
+
+            const pendquiz = aprendices - total_quiz;
+            const pendevi = aprendices - total_evidencias;
+            const pendfor = aprendices - total_foros;
+            const pendwik = aprendices - total_wikis;
+
+
             // Selecciona el elemento h2 y actualiza su contenido
             document.getElementById('estudiantesCount').innerText = `Total Estudiantes: ${total_estudiantes}`;
             // Selecciona el elemento h2 y actualiza su contenido
@@ -118,23 +134,42 @@ document.addEventListener('DOMContentLoaded', function () {
               type: 'bar',
               data: {
                 labels: ['Pruebas de Conocimiento', 'Evidencias', 'Foros', 'Wikis'],
-                datasets: [{
-                  label: 'Control de Actividades',
-                  data: [total_quiz, total_evidencias, total_foros, total_wikis],
-                  backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)'
-                  ],
-                  borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)'
-                  ],
-                  borderWidth: 1
-                }]
+                datasets: [
+                  {
+                    label: 'Realizadas',
+                    data: [total_quiz, total_evidencias, total_foros, total_wikis],
+                    backgroundColor: [
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                  },
+                  {
+                    label: 'Pendientes',
+                    data: [pendquiz, pendevi, pendfor, pendwik],
+                    backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                  }
+                ]
               },
               options: {
                 scales: {
@@ -144,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
               }
             });
+
           } else {
             console.error('Error en la respuesta del servidor:', data.message);
           }

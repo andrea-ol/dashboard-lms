@@ -70,7 +70,7 @@ try {
                                         <div class="form-group row">
                                             <label for="staticEmail" class="col-sm-2 col-form-label">Curso</label>
                                             <div class="col-sm-10">
-                                                <select id="cursoSelect" class="form-select" onchange="mostrarInputs(this.value)">
+                                                <select id="cursoSelect" class="form-select" onchange="mostrarInputs()">
                                                     <option value="">Seleccione un curso</option>
                                                     <?php
                                                     $cursos = obtenerCursos($centroFormacion, $tipoFormacion);
@@ -78,7 +78,11 @@ try {
                                                     if (!empty($cursos)) {
                                                         foreach ($cursos as $curso) {
                                                             $id_curso = $curso['id'];
-                                                            echo '<option value="' . $id_curso . '">' . htmlspecialchars($curso['fullname']) . '</option>';
+                                                            $fecha = $curso['fecha_inicio']; // Fecha inicio del curso
+                                                            $idcategoria = $curso['idcate']; // Id categoria del curso
+
+                                                            // Agregar datos como atributos en cada opción
+                                                            echo '<option value="' . $id_curso . '" data-fecha="' . $fecha . '" data-categoria="' . $idcategoria . '">' . htmlspecialchars($curso['fullname']) . '</option>';
                                                         }
                                                     } else {
                                                         echo '<option value="">No se encontraron cursos</option>';
