@@ -356,3 +356,20 @@ BEGIN
     RETURN participacion_count;
 END;
 $$ LANGUAGE plpgsql;
+
+----------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION obtenerFicReaId(course VARCHAR)
+RETURNS TABLE (
+    cmp_id bigint,
+    rea_id bigint
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT c2."CMP_ID", r."REA_ID"
+    FROM "RESULTADOS"."RA_T_2024_01" r
+    JOIN "INTEGRACION"."COMPETENCIA" c2 ON c2."CMP_ID" = r."CMP_ID"
+    WHERE r."FIC_ID" = course::bigint  -- course es equivalente a FIC_ID
+    AND c2."CMP_ACTIVO" = '1';
+END;
+$$ LANGUAGE plpgsql;

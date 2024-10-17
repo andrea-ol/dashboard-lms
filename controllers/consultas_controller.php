@@ -47,6 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         /////////////////////////////
         //Ojito cambiar a $id_curso
         $varchar = 9723;
+        //Ojito cambiar a $tabla
+        $varchar2 = 'RA_T_2024_01';
+        //Ojito cambiar a $FIC_ID
+        $varchar3 = 2963261;
         ////////////////////////////
 
         $excusa = $conn->prepare(query: "SELECT COUNT (*) FROM obtenerExcusaMedica(:id_curso, :fechaI, :fechaF)");
@@ -117,6 +121,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $wik->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
         $wik->execute();
         $wikis = $wik->fetchAll(PDO::FETCH_ASSOC);
+
+        // $resultados = $replica->prepare("SELECT DISTINCT * FROM \"INTEGRACION\".obtenerFicReaId(:id_curso)");
+        // $resultados->bindParam(':id_curso', $varchar3, PDO::PARAM_INT);
+        // $resultados->execute();
+        // $comres = $resultados->fetchAll(PDO::FETCH_ASSOC);
+
+        // // Inicializamos los arrays para CMP_ID y REA_ID
+        // $cmp_array = [];
+        // $rea_array = [];
+
+        // // Iteramos sobre los resultados de la consulta
+        // foreach ($comres as $row) {
+        //     $cmp_array[] = $row['CMP_ID']; // Agregamos el valor de CMP_ID al array
+        //     $rea_array[] = $row['REA_ID']; // Agregamos el valor de REA_ID al array
+        // }
 
 
         // Ejemplo: Imprimir los datos recibidos

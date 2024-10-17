@@ -184,6 +184,58 @@ document.addEventListener('DOMContentLoaded', function () {
               }
             });
 
+            // Crear la gráfica para resultados de aprendizaje con los valores obtenidos
+            const ctx3 = document.getElementById('myPieChart').getContext('2d');
+            new Chart(ctx3, {
+              type: 'bar',
+              data: {
+                labels: ['aqui va competencia', 'Evidencias', 'Foros', 'Wikis'],
+                datasets: [
+                  {
+                    label: 'Realizadas',
+                    data: [total_quiz, total_evidencias, total_foros, total_wikis],
+                    backgroundColor: [
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                  },
+                  {
+                    label: 'Pendientes',
+                    data: [pendquiz, pendevi, pendfor, pendwik],
+                    backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                  }
+                ]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+
           } else {
             console.error('Error en la respuesta del servidor:', data.message);
           }
