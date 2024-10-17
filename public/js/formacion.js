@@ -58,16 +58,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
           if (data.success) {
             // Extraer los valores de count de cada parámetro
-            const excusaMedicaCount = data.data.excusaMedica[0].count;
-            const llegadaTardeCount = data.data.llegadaTarde[0].count;
-            const asistenciaCount = data.data.asistencia[0].count;
-            const inasistenciaCount = data.data.inasistencia[0].count;
-            const suspendidoCount = data.data.suspendido[0].count;
+            const excusaMedicaCount = data.data.excusaMedica[0]?.count || 0;
+            const llegadaTardeCount = data.data.llegadaTarde[0]?.count || 0;
+            const asistenciaCount = data.data.asistencia[0]?.count || 0;
+            const inasistenciaCount = data.data.inasistencia[0]?.count || 0;
+            const suspendidoCount = data.data.suspendido[0]?.count || 0;
+            // Extraer los valores de count de cada parámetro para totales de aprendices
+            const total_suspendidos = data.data.suspendido[0].count;
             const total_estudiantes = data.data.estudiantes;
+            // Extraer los valores de count de cada parámetro para actividades
+            const total_quiz = data.data.actividades[0].obtenerparticipacionquiz;
+            const total_evidencias = data.data.evidencias[0].obtenerparticipacionevi;
+            const total_foros = data.data.foros[0].obtenerparticipacionforum;
+            const total_wikis = data.data.wikis[0].obtenerparticipacionwiki;
 
             // Selecciona el elemento h2 y actualiza su contenido
             document.getElementById('estudiantesCount').innerText = `Total Estudiantes: ${total_estudiantes}`;
-
+            // Selecciona el elemento h2 y actualiza su contenido
+            document.getElementById('suspendidosCount').innerText = `Total Estudiantes Suspendidos: ${total_suspendidos}`;
 
             // Crear la gráfica con los valores obtenidos
             const ctx = document.getElementById('myChart').getContext('2d');
@@ -91,6 +99,39 @@ document.addEventListener('DOMContentLoaded', function () {
                     'rgba(75, 192, 192, 1)',
                     'rgba(153, 102, 255, 1)',
                     'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+            ////////////////////////////////////////////////////////
+            // Crear la gráfica con los valores obtenidos
+            const ctx2 = document.getElementById('myBarChart').getContext('2d');
+            new Chart(ctx2, {
+              type: 'bar',
+              data: {
+                labels: ['Pruebas de Conocimiento', 'Evidencias', 'Foros', 'Wikis'],
+                datasets: [{
+                  label: 'Control de Actividades',
+                  data: [total_quiz, total_evidencias, total_foros, total_wikis],
+                  backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                  ],
+                  borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
                   ],
                   borderWidth: 1
                 }]

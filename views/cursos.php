@@ -67,7 +67,6 @@ try {
                                 <!-- Default dropright button -->
                                 <div>
                                     <form id="cursoForm">
-
                                         <div class="form-group row">
                                             <label for="staticEmail" class="col-sm-2 col-form-label">Curso</label>
                                             <div class="col-sm-10">
@@ -84,9 +83,6 @@ try {
                                                     } else {
                                                         echo '<option value="">No se encontraron cursos</option>';
                                                     }
-
-
-
                                                     ?>
                                                 </select>
                                             </div>
@@ -116,11 +112,14 @@ try {
                                 <div>
                                     <h2 id="estudiantesCount"><span class="badge badge-secondary">New</span></h2>
                                 </div>
+                                <div>
+                                    <h2 id="suspendidosCount"><span class="badge badge-secondary">New</span></h2>
+                                </div>
                                 <div class="col-xl-10 col-lg-8">
                                     <!-- Area Chart -->
                                     <div class="card shadow mb-4">
                                         <div class="card-header py-4">
-                                            <h6 class="m-0 font-weight-bold text-primary">Control de asistencias</h6>
+                                            <h6 class="m-0 font-weight-bold text-primary">Control de Asistencias</h6>
                                         </div>
                                         <div class="card-body">
                                             <div class="chart-area">
@@ -132,7 +131,7 @@ try {
                                     <!-- Bar Chart -->
                                     <div class="card shadow mb-4">
                                         <div class="card-header py-3">
-                                            <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+                                            <h6 class="m-0 font-weight-bold text-primary">Control de Participaciones</h6>
                                         </div>
                                         <div class="card-body">
                                             <div class="chart-bar">

@@ -58,6 +58,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $usuario = $usuarios->fetch(PDO::FETCH_ASSOC);
         $total_estudiantes = $usuario['total_estudiantes'];
 
+        $quiz = $conn->prepare("SELECT obtenerparticipacionquiz(:id_curso, :fechaI, :fechaF)");
+        $quiz->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
+        $quiz->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
+        $quiz->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
+        $quiz->execute();
+        $actividades = $quiz->fetchAll(PDO::FETCH_ASSOC);
+
+        $evi = $conn->prepare("SELECT obtenerparticipacionevi(:id_curso, :fechaI, :fechaF)");
+        $evi->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
+        $evi->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
+        $evi->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
+        $evi->execute();
+        $evidencias = $evi->fetchAll(PDO::FETCH_ASSOC);
+
+        $forum = $conn->prepare("SELECT obtenerparticipacionforum(:id_curso, :fechaI, :fechaF)");
+        $forum->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
+        $forum->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
+        $forum->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
+        $forum->execute();
+        $foros = $forum->fetchAll(PDO::FETCH_ASSOC);
+
+        $wik = $conn->prepare("SELECT obtenerparticipacionwiki(:id_curso, :fechaI, :fechaF)");
+        $wik->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
+        $wik->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
+        $wik->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
+        $wik->execute();
+        $wikis = $wik->fetchAll(PDO::FETCH_ASSOC);
+
 
         // Ejemplo: Imprimir los datos recibidos
         $response = [
@@ -69,7 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'asistencia' => $asistencia,
                 'inasistencia' => $inasistencia,
                 'suspendido' => $suspendido,
-                'estudiantes' => $total_estudiantes
+                'estudiantes' => $total_estudiantes,
+                'actividades' => $actividades,
+                'evidencias' => $evidencias,
+                'foros' => $foros,
+                'wikis' => $wikis
             ]
         ];
     } else {

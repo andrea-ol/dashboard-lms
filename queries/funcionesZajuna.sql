@@ -255,3 +255,103 @@ BEGIN
 END;
 $$
 LANGUAGE 'plpgsql';
+
+
+-----------------------------------------------------------------------------------------
+
+
+CREATE OR REPLACE FUNCTION obtenerparticipacionevi(id_curso BIGINT, fechaInicio DATE, fechaFin DATE)
+RETURNS BIGINT AS $$
+DECLARE
+    participacion_count BIGINT;
+BEGIN
+    SELECT count(a.id)
+    INTO participacion_count
+    FROM mdl_assign_submission s
+    JOIN mdl_assign a ON a.id = s.assignment
+    WHERE s.status = 'submitted'
+    AND a.course = id_curso
+    -- Incluir el tiempo final hasta las 23:59:59 del día
+    AND s.timecreated BETWEEN EXTRACT(EPOCH FROM fechaInicio) 
+                          AND EXTRACT(EPOCH FROM fechaFin + INTERVAL '1 day') - 1;
+    
+    RETURN participacion_count;
+END;
+$$ LANGUAGE plpgsql;
+
+
+------------------------------------------------------------------------
+
+
+CREATE OR REPLACE FUNCTION obtenerparticipacionquiz(id_curso BIGINT, fechaInicio DATE, fechaFin DATE
+)
+RETURNS BIGINT AS $$
+DECLARE
+    participacion_count BIGINT;
+BEGIN
+    SELECT count(q.id)
+    INTO participacion_count
+    FROM mdl_quiz_grades qg
+    JOIN mdl_quiz q ON qg.quiz = q.id
+    WHERE q.course = id_curso
+    AND qg.timemodified BETWEEN EXTRACT(EPOCH FROM fechaInicio) 
+                             AND EXTRACT(EPOCH FROM fechaFin + INTERVAL '1 day') - 1;
+    
+    RETURN participacion_count;
+END;
+$$ LANGUAGE plpgsql;
+
+
+----------------------------------------------------------------------------------
+
+
+
+CREATE OR REPLACE FUNCTION obtenerparticipacionforum(
+    id_curso BIGINT,
+    fechaInicio DATE,
+    fechaFin DATE
+)
+RETURNS BIGINT AS $$
+DECLARE
+    participacion_count BIGINT;
+BEGIN
+    SELECT count(fp.id)
+    INTO participacion_count
+    FROM mdl_forum_posts fp
+    JOIN mdl_forum_discussions fd ON fp.discussion = fd.id
+    JOIN mdl_forum f ON fd.forum = f.id
+    WHERE f.course = id_curso
+    AND fp.created BETWEEN EXTRACT(EPOCH FROM fechaInicio) 
+                       AND EXTRACT(EPOCH FROM fechaFin + INTERVAL '1 day') - 1;
+
+    RETURN participacion_count;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+------------------------------------------------------------------------------------
+
+
+CREATE OR REPLACE FUNCTION obtenerparticipacionwiki(
+    id_curso BIGINT,
+    fechaInicio DATE,
+    fechaFin DATE
+)
+RETURNS BIGINT AS $$
+DECLARE
+    participacion_count BIGINT;
+BEGIN
+    SELECT count(w.id)
+    INTO participacion_count
+    FROM mdl_wiki_versions wv
+    JOIN mdl_wiki_pages wp ON wp.id = wv.pageid        
+    JOIN mdl_wiki_subwikis ws ON ws.id = wp.subwikiid 
+    JOIN mdl_wiki w ON w.id = ws.wikiid              
+    WHERE w.course = id_curso
+    AND wv.timecreated BETWEEN EXTRACT(EPOCH FROM fechaInicio) 
+                           AND EXTRACT(EPOCH FROM fechaFin + INTERVAL '1 day') - 1;
+    
+    RETURN participacion_count;
+END;
+$$ LANGUAGE plpgsql;
