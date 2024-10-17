@@ -7,41 +7,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_curso = isset($_POST['id_curso']) ? $_POST['id_curso'] : null;
     $fechaInicio = isset($_POST['fechaInicio']) ? $_POST['fechaInicio'] : null;
     $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
-    // $fecha = isset($_POST['fechaCurso']) ? $_POST['fechaCurso'] : null;
-    // $idcategoria = isset($_POST['categoriaCurso']) ? $_POST['categoriaCurso'] : null;
+    $fecha = isset($_POST['fecha']) ? $_POST['fecha'] : null;
+    $idcategoria = isset($_POST['categoria']) ? $_POST['categoria'] : null;
 
     // Validar que los datos se hayan recibido
     if ($id_curso && $fechaInicio && $fechaFin) {
         // Aquí puedes realizar las operaciones que necesites, como consultas a la base de datos
 
-        // // FECHA INICIO DEL CURSO
-        // $fecha_inicio = date('d/m/Y', $fecha);
-        // list($dia, $mes, $anio) = explode('/', $fecha_inicio);
-        // // Convertir $mes a entero
-        // $mes = intval($mes);
+        // FECHA INICIO DEL CURSO
+        $fecha_inicio = date('d/m/Y', $fecha);
+        list($dia, $mes, $anio) = explode('/', $fecha_inicio);
+        // Convertir $mes a entero
+        $mes = intval($mes);
 
-        // if ($mes <= 06) {
-        //     $semestre = '01'; // Primer semestre
-        // } else {
-        //     $semestre = '02'; // Segundo semestre
-        // }
+        if ($mes <= 06) {
+            $semestre = '01'; // Primer semestre
+        } else {
+            $semestre = '02'; // Segundo semestre
+        }
 
-        // //OBTENER EL NOMBRE DE LA TABLA DESDE EL CATEGORIA DEL CURSO
-        // switch ($idcategoria) {
-        //     case 3:
-        //         $formacion = 'C';
-        //         break;
-        //     case 4:
-        //     case 5:
-        //         $formacion = 'T';
-        //         break;
-        //     default:
-        //         // Un valor predeterminado si es necesario
-        //         break;
-        // }
-        // //FIN OBTENER EL NOMBRE DE LA TABLA DESDE EL CATEGORIA DEL CURSO
+        //OBTENER EL NOMBRE DE LA TABLA DESDE EL CATEGORIA DEL CURSO
+        switch ($idcategoria) {
+            case 3:
+                $formacion = 'C';
+                break;
+            case 4:
+            case 5:
+                $formacion = 'T';
+                break;
+            default:
+                // Un valor predeterminado si es necesario
+                break;
+        }
+        //FIN OBTENER EL NOMBRE DE LA TABLA DESDE EL CATEGORIA DEL CURSO
 
-        // $tabla = ('RA' . '_' . $formacion . '_' . $anio . '_' . $semestre);
+        $tabla = ('RA' . '_' . $formacion . '_' . $anio . '_' . $semestre);
 
         /////////////////////////////
         //Ojito cambiar a $id_curso
@@ -132,7 +132,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'actividades' => $actividades,
                 'evidencias' => $evidencias,
                 'foros' => $foros,
-                'wikis' => $wikis
+                'wikis' => $wikis,
+                'tabla' => $tabla
             ]
         ];
     } else {

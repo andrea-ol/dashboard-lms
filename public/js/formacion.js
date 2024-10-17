@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Obtener los atributos de la opción seleccionada
     var fecha = selectedOption.getAttribute('data-fecha');
     var categoria = selectedOption.getAttribute('data-categoria');
+
     console.log(id_curso);
     var fechaInicio = document.getElementById('fechaInicio').value;
     var fechaFin = document.getElementById('fechaFin').value;
@@ -46,6 +47,9 @@ document.addEventListener('DOMContentLoaded', function () {
       data.append('id_curso', id_curso);
       data.append('fechaInicio', fechaInicio);
       data.append('fechaFin', fechaFin);
+      data.append('fecha', fecha);
+      data.append('categoria', categoria);
+
 
       // Realizar la solicitud con fetch
       fetch('/dashboard-lms/controllers/consultas_controller.php', {
