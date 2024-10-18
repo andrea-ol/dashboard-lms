@@ -16,36 +16,36 @@ $$ LANGUAGE plpgsql;
 
 ------------------------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION obtener_resultados(
-    curso_id VARCHAR,
-    cmp_id BIGINT[],
-    rea_id BIGINT[],
-    fecha_inicio DATE,
-    fecha_fin DATE
-)
+CREATE OR REPLACE FUNCTION "INTEGRACION".obtener_resultados(idnumber VARCHAR, cmp_id BIGINT[], rea_id BIGINT[], fecha_inicio DATE, fecha_fin DATE, tabla VARCHAR)
+
 RETURNS TABLE (
     fic_id BIGINT,
-    cmp_id BIGINT,
-    rea_id BIGINT,
-    fecha_envio DATE,
-    other_columns TEXT -- Adjust with actual column names
-) AS $$
+    competencia BIGINT,
+    resultado BIGINT,
+    fecha_envio TIMESTAMP  
+)
+
+AS $$
 DECLARE
     i INT;
-BEGIN
-
-    -- Iterate through the arrays and execute the query for each pair of elements
+    query TEXT;
+begin
+	
     FOR i IN 1..array_length(cmp_id, 1) LOOP
-        RETURN QUERY
-        SELECT rt."FIC_ID", rt."CMP_ID", rt."REA_ID", rt."FECHA_ENVIO_SOFIA", other_columns -- Adjust with actual column names
-        FROM "RESULTADOS"."RA_T_2024_01" rt
-        JOIN "INTEGRACION"."COMPETENCIA" c2 ON c2."CMP_ID" = rt."CMP_ID"
-        WHERE rt."FIC_ID" = curso_id::BIGINT
-          AND rt."CMP_ID" = cmp_id[i]
-          AND rt."REA_ID" = rea_id[i]
-          AND c2."CMP_ACTIVO" = '1'
-          AND rt."FECHA_ENVIO_SOFIA" BETWEEN fecha_inicio AND fecha_fin;
-    END LOOP;
+        
+	    query := format('
+            SELECT rt."FIC_ID", rt."CMP_ID", rt."REA_ID", rt."FECHA_ENVIO_SOFIA"
+            FROM "RESULTADOS".%I rt
+            JOIN "INTEGRACION"."COMPETENCIA" c2 ON c2."CMP_ID" = rt."CMP_ID"
+            WHERE rt."FIC_ID" = $1::BIGINT
+              AND rt."CMP_ID" = $2
+              AND rt."REA_ID" = $3
+              AND c2."CMP_ACTIVO" = ''1''
+              AND rt."FECHA_ENVIO_SOFIA"::DATE BETWEEN $4 AND $5
+        ', tabla);
 
+        RETURN QUERY EXECUTE query
+        USING idnumber, cmp_id[i], rea_id[i], fecha_inicio, fecha_fin;
+    END LOOP;
 END;
 $$ LANGUAGE plpgsql;

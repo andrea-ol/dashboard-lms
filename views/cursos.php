@@ -80,9 +80,12 @@ try {
                                                             $id_curso = $curso['id'];
                                                             $fecha = $curso['fecha_inicio']; // Fecha inicio del curso
                                                             $idcategoria = $curso['idcate']; // Id categoria del curso
+                                                            $idnumber = $curso['idnumber'];
+
+                                                            print_r($idnumber);
 
                                                             // Agregar datos como atributos en cada opción
-                                                            echo '<option value="' . $id_curso . '" data-fecha="' . $fecha . '" data-categoria="' . $idcategoria . '">' . htmlspecialchars($curso['fullname']) . '</option>';
+                                                            echo '<option value="' . htmlspecialchars($id_curso) . '" data-fecha="' . htmlspecialchars($fecha) . '" data-categoria="' . htmlspecialchars($idcategoria) . '" data-number="' . htmlspecialchars($idnumber) . '">' . htmlspecialchars($curso['fullname']) . '</option>';
                                                         }
                                                     } else {
                                                         echo '<option value="">No se encontraron cursos</option>';

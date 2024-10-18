@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fechaFin = isset($_POST['fechaFin']) ? $_POST['fechaFin'] : null;
     $fecha = isset($_POST['fecha']) ? $_POST['fecha'] : null;
     $idcategoria = isset($_POST['categoria']) ? $_POST['categoria'] : null;
+    $idnumber = isset($_POST['idnumber']) ? $_POST['idnumber'] : null;
 
     // Validar que los datos se hayan recibido
     if ($id_curso && $fechaInicio && $fechaFin) {
@@ -49,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $varchar = 9723;
         //Ojito cambiar a $tabla
         $varchar2 = 'RA_T_2024_01';
-        //Ojito cambiar a $FIC_ID
+        //Ojito cambiar a $idnumber
         $varchar3 = 2963261;
         ////////////////////////////
 
@@ -122,21 +123,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $wik->execute();
         $wikis = $wik->fetchAll(PDO::FETCH_ASSOC);
 
-        // $resultados = $replica->prepare("SELECT DISTINCT * FROM \"INTEGRACION\".obtenerFicReaId(:id_curso)");
-        // $resultados->bindParam(':id_curso', $varchar3, PDO::PARAM_INT);
-        // $resultados->execute();
-        // $comres = $resultados->fetchAll(PDO::FETCH_ASSOC);
+        // Prepara la consulta
+        $resultados = $replica->prepare("SELECT DISTINCT CMP_ID, REA_ID FROM \"INTEGRACION\".obtenerFicReaId(:id_curso)");
+        $resultados->bindParam(':id_curso', $varchar3, PDO::PARAM_STR);
+        $resultados->execute();
+        $comres = $resultados->fetchAll(PDO::FETCH_ASSOC);
 
-        // // Inicializamos los arrays para CMP_ID y REA_ID
-        // $cmp_array = [];
-        // $rea_array = [];
+        // Inicializa los arrays para CMP_ID y REA_ID
+        $cmp_array = [];
+        $rea_array = [];
 
-        // // Iteramos sobre los resultados de la consulta
-        // foreach ($comres as $row) {
-        //     $cmp_array[] = $row['CMP_ID']; // Agregamos el valor de CMP_ID al array
-        //     $rea_array[] = $row['REA_ID']; // Agregamos el valor de REA_ID al array
-        // }
+        // Itera sobre los resultados de la consulta
+        foreach ($comres as $row) {
+            // Verifica si las claves CMP_ID y REA_ID están presentes para evitar errores
+            if (isset($row['cmp_id']) && isset($row['rea_id'])) {
+                $cmp_array[] = $row['cmp_id']; // Agrega el valor de CMP_ID al array
+                $rea_array[] = $row['rea_id']; // Agrega el valor de REA_ID al array
+            }
+        }
 
+        $stmt = $replica->prepare("SELECT * FROM \"INTEGRACION\".obtener_resultados(:idnumber, :cmp_id, :rea_id, :fechaInicio, :fechaFin, :tabla)");
+        $stmt->bindParam(':idnumber', $varchar3, PDO::PARAM_STR);
+        $stmt->bindValue(':cmp_id', '{' . implode(',', $cmp_array) . '}', PDO::PARAM_STR);
+        $stmt->bindValue(':rea_id', '{' . implode(',', $rea_array) . '}', PDO::PARAM_STR);
+        $stmt->bindParam(':fechaInicio', $fechaInicio, PDO::PARAM_STR);
+        $stmt->bindParam(':fechaFin', $fechaFin, PDO::PARAM_STR);
+        $stmt->bindParam(':tabla', $varchar2, PDO::PARAM_STR);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Ejemplo: Imprimir los datos recibidos
         $response = [
@@ -153,7 +167,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'evidencias' => $evidencias,
                 'foros' => $foros,
                 'wikis' => $wikis,
-                'tabla' => $tabla
+                'tabla' => $tabla,
+                'idnumber' => $idnumber
             ]
         ];
     } else {

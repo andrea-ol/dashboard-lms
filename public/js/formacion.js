@@ -29,8 +29,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Obtener los atributos de la opción seleccionada
     var fecha = selectedOption.getAttribute('data-fecha');
     var categoria = selectedOption.getAttribute('data-categoria');
+    var idnumber = selectedOption.getAttribute('data-number');
 
-    console.log(id_curso);
+    console.log("ID Number ", idnumber);
     var fechaInicio = document.getElementById('fechaInicio').value;
     var fechaFin = document.getElementById('fechaFin').value;
 
@@ -49,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
       data.append('fechaFin', fechaFin);
       data.append('fecha', fecha);
       data.append('categoria', categoria);
+      data.append('idnumber', idnumber);
 
 
       // Realizar la solicitud con fetch
