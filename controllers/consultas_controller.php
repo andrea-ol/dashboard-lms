@@ -152,6 +152,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Asumiendo que $results ya contiene los resultados de tu consulta
+        $competencias = []; // Array para almacenar competencias
+        $resultados = []; // Array para almacenar resultados y sus conteos
+
+        foreach ($results as $row) {
+            // Extrae competencia y resultado de cada fila
+            $competencia = $row['competencia'];
+            $resultado = $row['resultado'];
+
+            // Almacenar competencia
+            if (!in_array($competencia, $competencias)) {
+                $competencias[] = $competencia; // Agrega si no está ya en el array
+            }
+
+            // Contar resultados
+            if (array_key_exists($resultado, $resultados)) {
+                $resultados[$resultado]++; // Incrementa el conteo si ya existe
+            } else {
+                $resultados[$resultado] = 1; // Inicializa el conteo si es nuevo
+            }
+        }
+
         // Ejemplo: Imprimir los datos recibidos
         $response = [
             'success' => true,
@@ -168,7 +190,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'foros' => $foros,
                 'wikis' => $wikis,
                 'tabla' => $tabla,
-                'idnumber' => $idnumber
+                'idnumber' => $idnumber,
+                'competencias' => $competencias,
+                'resultados' => $resultados
             ]
         ];
     } else {

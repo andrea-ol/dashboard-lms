@@ -85,13 +85,28 @@ document.addEventListener('DOMContentLoaded', function () {
             const total_evidencias = data.data.evidencias[0].obtenerparticipacionevi;
             const total_foros = data.data.foros[0].obtenerparticipacionforum;
             const total_wikis = data.data.wikis[0].obtenerparticipacionwiki;
+            //Extraer los valores de count para competencias y resultados de aprendizaje
+            const competencias = data.data.competencias;
+            const resultados = data.data.resultados;
+
+            // Para obtener todos los valores de competencias
+            const competenciaValues = competencias.map(competencia => competencia);
+
+            // Para obtener los valores de resultados
+            const resultadoKeys = Object.keys(resultados); // Claves (IDs de resultado)
+            const resultadoValues = Object.values(resultados); // Valores (conteos)
 
             const aprendices = total_estudiantes - total_suspendidos;
-
             const pendquiz = aprendices - total_quiz;
             const pendevi = aprendices - total_evidencias;
             const pendfor = aprendices - total_foros;
             const pendwik = aprendices - total_wikis;
+
+            // const aprendicesPend = aprendices - resultadoValues;
+            const aprendicesPend = resultadoValues.map(value => aprendices - value);
+
+
+            console.log(aprendicesPend);
 
 
             // Selecciona el elemento h2 y actualiza su contenido
@@ -187,52 +202,32 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             // Crear la gráfica para resultados de aprendizaje con los valores obtenidos
-            const ctx3 = document.getElementById('myPieChart').getContext('2d');
+            const ctx3 = document.getElementById('resultadosChart').getContext('2d');
             new Chart(ctx3, {
-              type: 'bar',
+              type: 'bar', // Tipo de gráfico
               data: {
-                labels: ['aqui va competencia', 'Evidencias', 'Foros', 'Wikis'],
-                datasets: [
-                  {
-                    label: 'Realizadas',
-                    data: [total_quiz, total_evidencias, total_foros, total_wikis],
-                    backgroundColor: [
-                      'rgba(54, 162, 235, 0.2)',
-                      'rgba(54, 162, 235, 0.2)',
-                      'rgba(54, 162, 235, 0.2)',
-                      'rgba(54, 162, 235, 0.2)'
-                    ],
-                    borderColor: [
-                      'rgba(54, 162, 235, 1)',
-                      'rgba(54, 162, 235, 1)',
-                      'rgba(54, 162, 235, 1)',
-                      'rgba(54, 162, 235, 1)'
-                    ],
-                    borderWidth: 1
-                  },
-                  {
-                    label: 'Pendientes',
-                    data: [pendquiz, pendevi, pendfor, pendwik],
-                    backgroundColor: [
-                      'rgba(255, 99, 132, 0.2)',
-                      'rgba(255, 99, 132, 0.2)',
-                      'rgba(255, 99, 132, 0.2)',
-                      'rgba(255, 99, 132, 0.2)'
-                    ],
-                    borderColor: [
-                      'rgba(255, 99, 132, 1)',
-                      'rgba(255, 99, 132, 1)',
-                      'rgba(255, 99, 132, 1)',
-                      'rgba(255, 99, 132, 1)'
-                    ],
-                    borderWidth: 1
-                  }
+                labels: resultadoKeys, // Etiquetas (IDs de resultado)
+                datasets: [{
+                  label: 'Resultados de Aprendizaje Evaluados', // Etiqueta del conjunto de datos
+                  data: resultadoValues, // Datos (conteos)
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color de fondo
+                  borderColor: 'rgba(75, 192, 192, 1)', // Color del borde
+                  borderWidth: 1 // Grosor del borde
+                },
+                {
+                  label: 'Pendientes por evaluar', // Etiqueta del conjunto de datos
+                  data: aprendicesPend, // Datos (conteos)
+                  backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color de fondo
+                  borderColor: 'rgba(255, 99, 132, 1)', // Color del borde
+                  borderWidth: 1 // Grosor del borde
+                }
                 ]
               },
+
               options: {
                 scales: {
                   y: {
-                    beginAtZero: true
+                    beginAtZero: true // Comenzar el eje y en cero
                   }
                 }
               }

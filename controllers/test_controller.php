@@ -29,7 +29,7 @@ $varchar2 = 'RA_T_2024_01';
 //Ojito cambiar a $idnumber
 $varchar3 = '2963261';
 ////////////////////////////
-$fechaInicio = '2024-10-01';
+$fechaInicio = '2024-09-01';
 $fechaFin = '2024-10-18';
 
 // Prepara la consulta
@@ -63,6 +63,29 @@ $stmt->bindParam(':tabla', $varchar2, PDO::PARAM_STR);
 // Ejecutar la consulta
 $stmt->execute();
 // Obtener los resultados
-$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Asumiendo que $results ya contiene los resultados de tu consulta
+$competencias = []; // Array para almacenar competencias
+$resultados = []; // Array para almacenar resultados y sus conteos
+
+foreach ($results as $row) {
+    // Extrae competencia y resultado de cada fila
+    $competencia = $row['competencia'];
+    $resultado = $row['resultado'];
+
+    // Almacenar competencia
+    if (!in_array($competencia, $competencias)) {
+        $competencias[] = $competencia; // Agrega si no está ya en el array
+    }
+
+    // Contar resultados
+    if (array_key_exists($resultado, $resultados)) {
+        $resultados[$resultado]++; // Incrementa el conteo si ya existe
+    } else {
+        $resultados[$resultado] = 1; // Inicializa el conteo si es nuevo
+    }
+}
+
+var_dump($competencias);
 var_dump($resultados);
