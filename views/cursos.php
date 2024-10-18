@@ -126,11 +126,11 @@ try {
                                     <!-- Area Chart -->
                                     <div class="card shadow mb-4">
                                         <div class="card-header py-4">
-                                            <h6 class="m-0 font-weight-bold text-primary">Control de Asistencias</h6>
+                                            <h6 class="m-0 font-weight-bold text-primary">Reporte de Asistencias</h6>
                                         </div>
                                         <div class="card-body">
                                             <div class="chart-area">
-                                                <canvas id="myChart"></canvas>
+                                                <canvas id="ChartAsistencia"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -138,11 +138,11 @@ try {
                                     <!-- Bar Chart -->
                                     <div class="card shadow mb-4">
                                         <div class="card-header py-3">
-                                            <h6 class="m-0 font-weight-bold text-primary">Control de Participaciones</h6>
+                                            <h6 class="m-0 font-weight-bold text-primary">Reporte de Participaciones</h6>
                                         </div>
                                         <div class="card-body">
                                             <div class="chart-bar">
-                                                <canvas id="myBarChart"></canvas>
+                                                <canvas id="ChartParticipa"></canvas>
                                             </div>
 
                                         </div>
@@ -153,11 +153,11 @@ try {
                                 <!-- Bar Chart -->
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Control de Participaciones</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Reporte de Resultados de Aprendizaje</h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="chart-bar">
-                                            <canvas id="resultadosChart"></canvas>
+                                            <canvas id="ChartResultados"></canvas>
                                         </div>
 
                                     </div>

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var categoria = selectedOption.getAttribute('data-categoria');
     var idnumber = selectedOption.getAttribute('data-number');
 
-    console.log("ID Number ", idnumber);
+
     var fechaInicio = document.getElementById('fechaInicio').value;
     var fechaFin = document.getElementById('fechaFin').value;
 
@@ -86,15 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const total_foros = data.data.foros[0].obtenerparticipacionforum;
             const total_wikis = data.data.wikis[0].obtenerparticipacionwiki;
             //Extraer los valores de count para competencias y resultados de aprendizaje
-            const competencias = data.data.competencias;
-            const resultados = data.data.resultados;
 
-            // Para obtener todos los valores de competencias
-            const competenciaValues = competencias.map(competencia => competencia);
-
-            // Para obtener los valores de resultados
-            const resultadoKeys = Object.keys(resultados); // Claves (IDs de resultado)
-            const resultadoValues = Object.values(resultados); // Valores (conteos)
 
             const aprendices = total_estudiantes - total_suspendidos;
             const pendquiz = aprendices - total_quiz;
@@ -102,21 +94,65 @@ document.addEventListener('DOMContentLoaded', function () {
             const pendfor = aprendices - total_foros;
             const pendwik = aprendices - total_wikis;
 
-            // const aprendicesPend = aprendices - resultadoValues;
-            const aprendicesPend = resultadoValues.map(value => aprendices - value);
+            const conteoPorCompetencia = {
+              "36853": { "495546": 3, "495542": 1 , "495532": 4 , "495842": 3, "445546": 3, "85542": 1 , "495032": 4 , "494842": 3  },
+              "36883": { "495546": 3, "495542": 1 , "495532": 4 , "554654": 3, "445546": 2, "85542": 3 , "495032": 4 , "494842": 3  },
+              "36853": { "495546": 3, "495542": 1 , "495532": 4 , "596451": 3, "254121": 5, "51841": 10 , "495032": 2 , "494842": 5  },
+              
+            };
 
+            // Preparar datos
+            const competenciasLabels = Object.keys(conteoPorCompetencia);
+            const resultadosIds = new Set(); // Para resultados únicos
+            const datasets = [];
 
-            console.log(aprendicesPend);
+            // Recorremos las competencias
+            competenciasLabels.forEach(competenciaId => {
+              const resultados = conteoPorCompetencia[competenciaId];
 
+              for (const resultadoId in resultados) {
+                resultadosIds.add(resultadoId);
+              }
+
+              datasets.push({
+                label: `Competencia ${competenciaId}`,
+                data: Array.from(resultadosIds).map(resultadoId => resultados[resultadoId] || 0),
+                backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.2)`,
+                borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
+                borderWidth: 1
+              });
+            });
+
+            const resultadosLabels = Array.from(resultadosIds); // Convertir a array
+
+            // Crear el gráfico
+            const ctx = document.getElementById('ChartResultados').getContext('2d');
+            const myChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: resultadosLabels,
+                datasets: datasets
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  },
+                  x: {
+                    stacked: false // Agrupadas
+                  }
+                }
+              }
+            });
 
             // Selecciona el elemento h2 y actualiza su contenido
             document.getElementById('estudiantesCount').innerText = `Total Aprendices: ${total_estudiantes}`;
             // Selecciona el elemento h2 y actualiza su contenido
             document.getElementById('suspendidosCount').innerText = `Total Aprendices Suspendidos: ${total_suspendidos}`;
 
-            // Crear la gráfica con los valores obtenidos
-            const ctx = document.getElementById('myChart').getContext('2d');
-            new Chart(ctx, {
+            // Crear la gráfica para el control de asistencias
+            const ctrl_asistencia = document.getElementById('ChartAsistencia').getContext('2d');
+            new Chart(ctrl_asistencia, {
               type: 'bar',
               data: {
                 labels: ['Excusa Médica', 'Llegada Tarde', 'Asistencia', 'Inasistencia', 'Suspendido'],
@@ -148,9 +184,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
               }
             });
-            ////////////////////////////////////////////////////////
-            // Crear la gráfica con los valores obtenidos
-            const ctx2 = document.getElementById('myBarChart').getContext('2d');
+            /* ----------------------------------------------------------------------------------------------------------  */
+            // Crear la gráfica con los valores obtenidos para el control de participacón de actividades
+            const ctx2 = document.getElementById('ChartParticipa').getContext('2d');
             new Chart(ctx2, {
               type: 'bar',
               data: {
@@ -201,37 +237,8 @@ document.addEventListener('DOMContentLoaded', function () {
               }
             });
 
-            // Crear la gráfica para resultados de aprendizaje con los valores obtenidos
-            const ctx3 = document.getElementById('resultadosChart').getContext('2d');
-            new Chart(ctx3, {
-              type: 'bar', // Tipo de gráfico
-              data: {
-                labels: resultadoKeys, // Etiquetas (IDs de resultado)
-                datasets: [{
-                  label: 'Resultados de Aprendizaje Evaluados', // Etiqueta del conjunto de datos
-                  data: resultadoValues, // Datos (conteos)
-                  backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color de fondo
-                  borderColor: 'rgba(75, 192, 192, 1)', // Color del borde
-                  borderWidth: 1 // Grosor del borde
-                },
-                {
-                  label: 'Pendientes por evaluar', // Etiqueta del conjunto de datos
-                  data: aprendicesPend, // Datos (conteos)
-                  backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color de fondo
-                  borderColor: 'rgba(255, 99, 132, 1)', // Color del borde
-                  borderWidth: 1 // Grosor del borde
-                }
-                ]
-              },
-
-              options: {
-                scales: {
-                  y: {
-                    beginAtZero: true // Comenzar el eje y en cero
-                  }
-                }
-              }
-            });
+            /* ----------------------------------------------------------------------------------------------------------  */
+            // Crear la gráfica con los valores obtenidos para las calificaciones de resultados de aprendizaje
 
           } else {
             console.error('Error en la respuesta del servidor:', data.message);
