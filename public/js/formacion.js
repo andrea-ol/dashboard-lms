@@ -110,9 +110,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             // Selecciona el elemento h2 y actualiza su contenido
-            document.getElementById('estudiantesCount').innerText = `Total Estudiantes: ${total_estudiantes}`;
+            document.getElementById('estudiantesCount').innerText = `Total Aprendices: ${total_estudiantes}`;
             // Selecciona el elemento h2 y actualiza su contenido
-            document.getElementById('suspendidosCount').innerText = `Total Estudiantes Suspendidos: ${total_suspendidos}`;
+            document.getElementById('suspendidosCount').innerText = `Total Aprendices Suspendidos: ${total_suspendidos}`;
 
             // Crear la gráfica con los valores obtenidos
             const ctx = document.getElementById('myChart').getContext('2d');
