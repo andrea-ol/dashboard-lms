@@ -172,6 +172,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
               });
 
+              // Modificar competenciasLabels para agregar "Competencia Nro: " a cada etiqueta
+              const competenciasLabelsModificado = competenciasLabels.map((label, idx) => `Competencia Nro: ${label}`);
+
+
               // Crear el gráfico
               const ChartResultados = document
                 .getElementById("ChartResultados")
@@ -179,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
               new Chart(ChartResultados, {
                 type: "bar",
                 data: {
-                  labels: competenciasLabels, // Las competencias son las etiquetas en el eje X
+                  labels: competenciasLabelsModificado, // Las competencias son las etiquetas en el eje X
                   datasets: datasets,
                 },
                 options: {
