@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
               // Crear un dataset por cada resultado, no por competencia
               const datasets = resultadosLabels.map((resultadoId, index) => {
                 return {
-                  label: `Resultado ${resultadoId}`,
+                  label: `Resultado: ${resultadoId}`,
                   data: competenciasLabels.map(
                     (competenciaId) =>
                       conteoPorCompetencia[competenciaId][resultadoId] || 0
