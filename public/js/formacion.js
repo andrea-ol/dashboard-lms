@@ -89,27 +89,35 @@ document.addEventListener("DOMContentLoaded", function () {
               const total_foros = data.data.foros[0].obtenerparticipacionforum;
               const total_wikis = data.data.wikis[0].obtenerparticipacionwiki;
               //Extraer los valores de count para competencias y resultados de aprendizaje
-              const competenciasrea = data.data.competencias;
+              const competencias = data.data.competencias;
+
+              // Objeto para almacenar el conteo de valores por cada competencia
               const conteoPorCompetencia = {};
 
-              // Recorremos cada clave de `competenciasrea`
-              for (const key in competenciasrea) {
-                if (competenciasrea.hasOwnProperty(key)) {
-                  const values = competenciasrea[key];
+              // Recorremos cada clave del objeto `competencias`
+              for (const competenciaId in competencias) {
+                if (competencias.hasOwnProperty(competenciaId)) {
+                  const values = competencias[competenciaId]; // Obtenemos los valores de la competencia
 
-                  // Iteramos sobre los valores
+                  // Si no existe una entrada para esta competencia, la inicializamos como objeto vacío
+                  if (!conteoPorCompetencia[competenciaId]) {
+                    conteoPorCompetencia[competenciaId] = {};
+                  }
+
+                  // Iteramos sobre los valores de la competencia
                   values.forEach((valor) => {
-                    // Mismo procedimiento para contar las ocurrencias
-                    if (conteoPorCompetencia[valor]) {
-                      conteoPorCompetencia[valor]++;
+                    // Verificamos si el valor ya tiene un conteo para esta competencia
+                    if (conteoPorCompetencia[competenciaId][valor]) {
+                      conteoPorCompetencia[competenciaId][valor]++;
                     } else {
-                      conteoPorCompetencia[valor] = 1;
+                      // Si no existe, inicializamos el conteo en 1
+                      conteoPorCompetencia[competenciaId][valor] = 1;
                     }
                   });
                 }
               }
 
-              console.log(conteoPorCompetencia); // Mostramos el conteo de los valores en resultados de aprendizaje
+              console.log(conteoPorCompetencia); // Mostramos el conteo por competencia y valor
 
               const aprendices = total_estudiantes - total_suspendidos;
               const pendquiz = aprendices - total_quiz;
