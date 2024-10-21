@@ -90,9 +90,9 @@ document.addEventListener("DOMContentLoaded", function () {
               const total_wikis = data.data.wikis[0].obtenerparticipacionwiki;
               //Extraer los valores de count para competencias y resultados de aprendizaje
               const competenciasrea = data.data.competencias;
-              const conteoResult = {};
+              const conteoPorCompetencia = {};
 
-              // Recorremos cada clave de `resultadosAprendizaje`
+              // Recorremos cada clave de `competenciasrea`
               for (const key in competenciasrea) {
                 if (competenciasrea.hasOwnProperty(key)) {
                   const values = competenciasrea[key];
@@ -100,16 +100,16 @@ document.addEventListener("DOMContentLoaded", function () {
                   // Iteramos sobre los valores
                   values.forEach((valor) => {
                     // Mismo procedimiento para contar las ocurrencias
-                    if (conteoResult[valor]) {
-                      conteoResult[valor]++;
+                    if (conteoPorCompetencia[valor]) {
+                      conteoPorCompetencia[valor]++;
                     } else {
-                      conteoResult[valor] = 1;
+                      conteoPorCompetencia[valor] = 1;
                     }
                   });
                 }
               }
 
-              console.log(conteoResult); // Mostramos el conteo de los valores en resultados de aprendizaje
+              console.log(conteoPorCompetencia); // Mostramos el conteo de los valores en resultados de aprendizaje
 
               const aprendices = total_estudiantes - total_suspendidos;
               const pendquiz = aprendices - total_quiz;
@@ -117,16 +117,16 @@ document.addEventListener("DOMContentLoaded", function () {
               const pendfor = aprendices - total_foros;
               const pendwik = aprendices - total_wikis;
 
-              const conteoPorCompetencia = {
-                36853: {
-                  495546: 3,
-                  495542: 1,
-                  495543: 5,
-                  495544: 2,
-                  495545: 4,
-                },
-                36854: { 495546: 2, 495543: 1 },
-              };
+              /*  const conteoPorCompetencia = {
+                 36853: {
+                   495546: 3,
+                   495542: 1,
+                   495543: 5,
+                   495544: 2,
+                   495545: 4,
+                 },
+                 36854: { 495546: 2, 495543: 1 },
+               }; */
 
               // Preparar datos
               const competenciasLabels = Object.keys(conteoPorCompetencia);
