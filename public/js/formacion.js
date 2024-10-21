@@ -95,56 +95,55 @@ document.addEventListener('DOMContentLoaded', function () {
             const pendwik = aprendices - total_wikis;
 
             const conteoPorCompetencia = {
-              "36853": { "495546": 3, "495542": 1 , "495532": 4 , "495842": 3, "445546": 3, "85542": 1 , "495032": 4 , "494842": 3  },
-              "36883": { "495546": 3, "495542": 1 , "495532": 4 , "554654": 3, "445546": 2, "85542": 3 , "495032": 4 , "494842": 3  },
-              "36853": { "495546": 3, "495542": 1 , "495532": 4 , "596451": 3, "254121": 5, "51841": 10 , "495032": 2 , "494842": 5  },
-              
-            };
-
-            // Preparar datos
-            const competenciasLabels = Object.keys(conteoPorCompetencia);
-            const resultadosIds = new Set(); // Para resultados únicos
-            const datasets = [];
-
-            // Recorremos las competencias
-            competenciasLabels.forEach(competenciaId => {
+              "36853": { "495546": 3, "495542": 1, "495543": 5, "495544": 2, "495545": 4 },
+              "36854": { "495546": 2, "495543": 1 }
+          };
+          
+          // Preparar datos
+          const competenciasLabels = Object.keys(conteoPorCompetencia);
+          const resultadosIds = new Set(); // Para resultados únicos
+          
+          // Obtener todos los resultados únicos
+          competenciasLabels.forEach(competenciaId => {
               const resultados = conteoPorCompetencia[competenciaId];
-
               for (const resultadoId in resultados) {
-                resultadosIds.add(resultadoId);
+                  resultadosIds.add(resultadoId);
               }
-
-              datasets.push({
-                label: `Competencia ${competenciaId}`,
-                data: Array.from(resultadosIds).map(resultadoId => resultados[resultadoId] || 0),
-                backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.2)`,
-                borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
-                borderWidth: 1
-              });
-            });
-
-            const resultadosLabels = Array.from(resultadosIds); // Convertir a array
-
-            // Crear el gráfico
-            const ctx = document.getElementById('ChartResultados').getContext('2d');
-            const myChart = new Chart(ctx, {
+          });
+          
+          const resultadosLabels = Array.from(resultadosIds); // Convertir a array de resultados únicos
+          
+          // Crear un dataset por cada resultado, no por competencia
+          const datasets = resultadosLabels.map((resultadoId, index) => {
+              return {
+                  label: `Resultado ${resultadoId}`,
+                  data: competenciasLabels.map(competenciaId => conteoPorCompetencia[competenciaId][resultadoId] || 0),
+                  backgroundColor: `rgba(${Math.floor(Math.random() * 300)}, ${Math.floor(Math.random() * 300)}, ${Math.floor(Math.random() * 300)}, 0.5)`,
+                  borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 300)}, 1)`,
+                  borderWidth: 1
+              };
+          });
+          
+          // Crear el gráfico
+          const ctx = document.getElementById('ChartResultados').getContext('2d');
+          new Chart(ctx, {
               type: 'bar',
               data: {
-                labels: resultadosLabels,
-                datasets: datasets
+                  labels: competenciasLabels, // Las competencias son las etiquetas en el eje X
+                  datasets: datasets
               },
               options: {
-                scales: {
-                  y: {
-                    beginAtZero: true
-                  },
-                  x: {
-                    stacked: false // Agrupadas
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      },
+                      x: {
+                          stacked: false // Agrupadas, cambiar a true si quieres que las barras estén apiladas
+                      }
                   }
-                }
               }
-            });
-
+          });
+          
             // Selecciona el elemento h2 y actualiza su contenido
             document.getElementById('estudiantesCount').innerText = `Total Aprendices: ${total_estudiantes}`;
             // Selecciona el elemento h2 y actualiza su contenido
