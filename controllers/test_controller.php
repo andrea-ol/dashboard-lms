@@ -5,7 +5,7 @@ $rutaServidor = '127.0.0.1';
 $puerto = '5432';
 $usuario = 'postgres';
 $password = '12345';
-$nombreBaseDeDatos = 'integracion_replica-v3';
+$nombreBaseDeDatos = 'integracion_replica_v3';
 
 /* Validación de la conexión */
 try {
@@ -83,4 +83,4 @@ print_r($competencias);
 
 
 var_dump($competencias);
-var_dump($resultados);
+

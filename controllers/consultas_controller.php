@@ -167,6 +167,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Agregar el resultado de aprendizaje a la competencia correspondiente
             $competencias[$competencia][] = $resultado;
         }
+        // 
+
 
         // Ejemplo: Imprimir los datos recibidos
         $response = [
