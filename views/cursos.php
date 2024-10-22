@@ -146,6 +146,7 @@ try {
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLongTitle">Aprendices con Inasistencia</h5>
                                                 </div>
+                                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut omnis, accusamus tenetur qui odio porro aliquid nulla magnam architecto eos eligendi, officiis dolor neque! Ad sed doloribus eligendi dolore rerum!</p>
                                                 <div class="modal-body">
                                                     <table class="table table-hover" id="resultados_table">
                                                         <thead>
@@ -160,6 +161,7 @@ try {
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                    <a  href="inasistencias.php" class="btn btn-secondary">Detalle de Inasistencia</a>
                                                 </div>
                                             </div>
                                         </div>
