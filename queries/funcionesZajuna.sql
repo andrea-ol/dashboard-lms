@@ -455,5 +455,41 @@ BEGIN
 END $$;
 
 
-
 -----------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION obtener_asistencia_curso(id_curso BIGINT)
+RETURNS TABLE (
+    student_id BIGINT,
+    aprendiz TEXT,
+    id_teacher BIGINT,
+    instructor TEXT,
+    fecha_asistencia DATE,
+    estado_inasistencia TEXT,
+    horas_tardes TEXT
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        s.id AS student_id, 
+        s.firstname || ' ' || s.lastname AS aprendiz,
+        u.id AS id_teacher,
+        u.firstname || ' ' || u.lastname AS instructor,
+        (attendance_item->>'DATE')::DATE AS fecha_asistencia, -- Convertimos a DATE
+        attendance_item->>'ATTENDANCE' AS estado_inasistencia,
+        CASE
+            WHEN (attendance_item->>'ATTENDANCE')::int = 2 THEN 
+                attendance_item->>'AMOUNTHOURS'
+            ELSE NULL
+        END AS horas_tardes
+    FROM 
+        mdl_local_asistencia_permanente ap
+    JOIN 
+        mdl_user s ON ap.student_id = s.id 
+    LEFT JOIN 
+        LATERAL jsonb_array_elements(ap.full_attendance::jsonb) AS attendance_item ON true
+    LEFT JOIN 
+        mdl_user u ON (attendance_item->>'TEACHER_ID')::int = u.id 
+    WHERE 
+        ap.course_id = id_curso;
+END;
+$$ LANGUAGE plpgsql;
