@@ -447,11 +447,13 @@ BEGIN
 
                 -- Condiciones para llegadas tarde recurrentes con horas acumuladas >= 5
                 IF total_horas_tarde >= 5 THEN
-                    RETURN QUERY SELECT r.sid, r.fullname, 'Llegadas tarde recurrentes (>= 5 horas acumuladas)';
+                    RETURN QUERY SELECT r.sid, r.fullname, 'Llegadas tarde recurrentes';
                 END IF;
             END IF;
         END LOOP;
     END LOOP;
 END $$;
+
+
 
 -----------------------------------------------------------------------
