@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Respuesta del servidor:", data);
 
             if (data.success) {
+              inputsTime.style.display = "none";
               // Extraer los valores de count de cada parámetro
               const excusaMedicaCount = data.data.excusaMedica[0]?.count || 0;
               const llegadaTardeCount = data.data.llegadaTarde[0]?.count || 0;
