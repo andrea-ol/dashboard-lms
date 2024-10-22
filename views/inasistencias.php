@@ -74,32 +74,25 @@ try {
                                         </div>
                                         <div class="card-body">
                                             <div class="chart-area">
-                                            <table id="table_asiss" class="display" style="width:100%">
-                                                    <thead>
+                                                <table id="table_asiss" class="display" style="width:100%">
+                                                    <thead class="thead_resultados">
                                                         <tr>
-                                                            <th>1</th>
-                                                            <th>2</th>
-                                                            <th>3</th>
-                                                            <th>4</th>
+                                                            <th>Columna 1</th>
+                                                            <th>Columna 2</th>
+                                                            <th>Columna 3</th>
+                                                            <th>Columna 4</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td>
-                                                                2
-                                                            </td>
-                                                            <td>
-                                                                2
-                                                            </td>
-                                                            <td>
-                                                                2
-                                                            </td>
-                                                            <td>
-                                                                2
-                                                            </td>
+                                                            <td>2</td>
+                                                            <td>2</td>
+                                                            <td>2</td>
+                                                            <td>2</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
+
                                             </div>
                                         </div>
                                     </div>
