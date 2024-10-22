@@ -129,8 +129,38 @@ try {
                                             <h6 class="m-0 font-weight-bold text-primary">Reporte de Asistencias</h6>
                                         </div>
                                         <div class="card-body">
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                                Analisis Inasistencias
+                                            </button>
                                             <div class="chart-area">
                                                 <canvas id="ChartAsistencia"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Aprendices con Inasistencia</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table table-hover" id="resultados_table">
+                                                        <thead>
+                                                            <tr id="vistaap-thead">
+                                                                <th scope="col">Aprendiz</th>
+                                                                <th scope="col">Condicion de Inasistencia</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="selectedData">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

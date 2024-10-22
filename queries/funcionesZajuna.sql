@@ -373,3 +373,85 @@ BEGIN
     AND c2."CMP_ACTIVO" = '1';
 END;
 $$ LANGUAGE plpgsql;
+
+
+---------------------------------------------------------------------------
+
+-- FUNCIONES ANALISIS -----------------------------------------------------
+
+CREATE OR REPLACE FUNCTION analizar_asistencia(p_course_id BIGINT, p_semana_inicio DATE, p_semana_fin DATE)
+RETURNS TABLE (
+    student_id BIGINT,
+    aprendiz TEXT,
+    condicion TEXT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    r RECORD;
+    attendance_record jsonb;
+    inasistencias_seguidas INT;
+    inasistencias_intermitentes INT;
+    total_horas_tarde INT;
+BEGIN
+    -- Recorrer cada estudiante en el curso indicado
+    FOR r IN (
+        SELECT p.student_id AS sid, u.firstname || ' ' || u.lastname AS fullname, p.full_attendance
+        FROM mdl_local_asistencia_permanente p
+        JOIN mdl_user u ON u.id = p.student_id
+        WHERE p.course_id = p_course_id
+          AND p.full_attendance IS NOT NULL
+    ) LOOP
+        -- Inicializar contadores
+        inasistencias_seguidas := 0;
+        inasistencias_intermitentes := 0;
+        total_horas_tarde := 0;
+
+        -- Extraer las entradas de asistencia de full_attendance
+        FOR attendance_record IN
+            SELECT * FROM jsonb_array_elements_text(r.full_attendance::jsonb)
+        LOOP
+            -- Obtener los valores de asistencia y fecha
+            IF (attendance_record->>'DATE')::date BETWEEN p_semana_inicio AND p_semana_fin THEN
+                CASE attendance_record->>'ATTENDANCE'
+                    WHEN '0' THEN
+                        -- Contar inasistencias consecutivas
+                        inasistencias_seguidas := inasistencias_seguidas + 1;
+
+                        -- Verificar inasistencias intermitentes (condición para intermitencia)
+                        IF inasistencias_seguidas = 1 THEN
+                            inasistencias_intermitentes := inasistencias_intermitentes + 1;
+                        END IF;
+
+                    WHEN '2' THEN
+                        -- Reiniciar contador de inasistencias seguidas
+                        inasistencias_seguidas := 0;
+
+                        -- Sumar horas de llegada tarde
+                        total_horas_tarde := total_horas_tarde + (attendance_record->>'AMOUNTHOURS')::int;
+
+                    ELSE
+                        -- Si no es ni '0' (inasistencia) ni '2' (llegada tarde), reiniciar el contador de inasistencias seguidas
+                        inasistencias_seguidas := 0;
+                END CASE;
+
+                -- Condiciones para inasistencias intermitentes
+                IF inasistencias_intermitentes >= 2 THEN
+                    RETURN QUERY SELECT r.sid, r.fullname, 'Inasistencias intermitentes';
+                END IF;
+
+                -- Condiciones para 3 inasistencias seguidas
+                IF inasistencias_seguidas = 3 THEN
+                    RETURN QUERY SELECT r.sid, r.fullname, '3 inasistencias seguidas';
+                END IF;
+
+                -- Condiciones para llegadas tarde recurrentes con horas acumuladas >= 5
+                IF total_horas_tarde >= 5 THEN
+                    RETURN QUERY SELECT r.sid, r.fullname, 'Llegadas tarde recurrentes (>= 5 horas acumuladas)';
+                END IF;
+            END IF;
+        END LOOP;
+    END LOOP;
+END $$;
+
+-----------------------------------------------------------------------

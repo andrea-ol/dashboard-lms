@@ -169,6 +169,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         // 
 
+        $asis = $conn->prepare("SELECT analizar_asistencia(:id_curso, :fechaI, :fechaF)");
+        $asis->bindParam(':id_curso', $varchar, PDO::PARAM_INT);
+        $asis->bindParam(':fechaI', $fechaInicio, PDO::PARAM_STR);
+        $asis->bindParam(':fechaF', $fechaFin, PDO::PARAM_STR);
+        $asis->execute();
+        $analisisAsis = $asis->fetchAll(PDO::FETCH_ASSOC);
+
 
         // Ejemplo: Imprimir los datos recibidos
         $response = [
@@ -185,7 +192,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'evidencias' => $evidencias,
                 'foros' => $foros,
                 'wikis' => $wikis,
-                'competencias' => $competencias
+                'competencias' => $competencias,
+                'analisisAsis' => $analisisAsis
             ]
         ];
     } else {

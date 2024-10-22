@@ -90,6 +90,62 @@ document.addEventListener("DOMContentLoaded", function () {
               const total_wikis = data.data.wikis[0].obtenerparticipacionwiki;
               //Extraer los valores de count para competencias y resultados de aprendizaje
               const competencias = data.data.competencias;
+              //Extraer los valores de los aprendices que cumplen con las condiciones de inasistencias
+              const analisisAsis = data.data.analisisAsis;
+
+              /* const competencias = {
+                36853: [
+                  495541, 495541, 495541, 495541, 495541, 495541, 495541, 495541, 495541,
+                  495542, 495542, 495542, 495542, 495542, 495542, 495542, 495542, 495542, 495542, 495542,
+                  495543, 495543, 495543, 495543, 495543, 495543, 495543,
+                  495544, 495544, 495544, 495544, 495544,
+                  495545, 495545, 495545,
+                ],
+                36854: [
+                  495546, 495546, 495546, 495546, 495546, 495546,
+                  495547, 495547, 495547,
+                  495548, 495548, 495548, 495548, 495548, 495548, 495548, 495548,
+                  495549, 495549, 495549, 495549, 495549, 495549, 495549, 495549, 495549, 495549, 495549,
+                ],
+                36855: [
+                  495550, 495550, 495550, 495550, 495550, 495550,
+                  495551, 495551, 495551,
+                  495552, 495552, 495552, 495552, 495552, 495552, 495552, 495552,
+                  495553, 495553, 495553, 495553, 495553, 495553, 495553, 495553, 495553, 495553, 495553,
+                ],
+              }; */
+
+              let modalBody = document.getElementById("selectedData");
+              modalBody.innerHTML = "";
+
+              // Iterar sobre los datos
+              analisisAsis.forEach(item => {
+                // Extraer los valores del string 'analizar_asistencia'
+                const match = item.analizar_asistencia.match(/(\d+),"([^"]+)","([^"]+)"/);
+
+                if (match) {
+
+                  const nombre = match[2]; // Nombre
+                  const comentario = match[3]; // Comentario
+
+                  // Crear una nueva fila
+                  const row = document.createElement("tr");
+
+                  const nombreCell = document.createElement("td");
+                  nombreCell.textContent = nombre;
+
+                  const comentarioCell = document.createElement("td");
+                  comentarioCell.textContent = comentario;
+
+                  // Agregar celdas a la fila
+
+                  row.appendChild(nombreCell);
+                  row.appendChild(comentarioCell);
+
+                  // Agregar la fila al tbody
+                  modalBody.appendChild(row);
+                }
+              });
 
               // Objeto para almacenar el conteo de valores por cada competencia
               const conteoPorCompetencia = {};
@@ -117,24 +173,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
               }
 
-              console.log(conteoPorCompetencia); // Mostramos el conteo por competencia y valor
-
               const aprendices = total_estudiantes - total_suspendidos;
               const pendquiz = aprendices - total_quiz;
               const pendevi = aprendices - total_evidencias;
               const pendfor = aprendices - total_foros;
               const pendwik = aprendices - total_wikis;
-
-              /*  const conteoPorCompetencia = {
-                 36853: {
-                   495546: 3,
-                   495542: 1,
-                   495543: 5,
-                   495544: 2,
-                   495545: 4,
-                 },
-                 36854: { 495546: 2, 495543: 1 },
-               }; */
 
               // Preparar datos
               const competenciasLabels = Object.keys(conteoPorCompetencia);
