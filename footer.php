@@ -24,7 +24,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/dashboard-lms/public/js/formacion.js"></script>
-<script src="/dashboard-lms/public/js/result_ap.js"></script>
+<script src="/dashboard-lms/public/js/inasistencia.js"></script>
 <script src="/dashboard-lms/public/js/scripts.js"></script>
 
 <!-- Bootstrap -->

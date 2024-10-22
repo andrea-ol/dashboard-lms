@@ -161,7 +161,10 @@ try {
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                    <a  href="inasistencias.php" class="btn btn-secondary">Detalle de Inasistencia</a>
+                                                <form action="inasistencias.php" method="post">
+                                                    <input type="hidden" name="fic_id" id="fic_id" value="">
+                                                    <button type="submit" class="btn btn-secondary">Detalle de Inasistencia</button>
+                                                </form>
                                                 </div>
                                             </div>
                                         </div>

@@ -6,7 +6,7 @@ require_once '../vendor/autoload.php';
 require_once '../config/db_config.php';
 require_once '../config/sofia_config.php';
 // Incluir el controlador necesario para gestionar las categorias
-require_once '../controllers/cursos_controller.php';
+require_once '../controllers/asistencia_controller.php';
 
 
 session_start(); // Iniciar la sesión
@@ -17,16 +17,18 @@ include '../header.php';
 try {
     // Verificar si el usuario está autenticado y si la sesión no ha caducado
     if (isset($_SESSION['user']) && checkSessionTimeout()) {
-
-       
-
+        // Verificar si la solicitud es POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id_curso = $_POST['fic_id'];
+            print_r($id_curso);
+        }
         // Intentar validar la pertenencia del usuario al curso y capturar posibles errores
         try {
             // Si el usuario pertenece al curso, se muestra la vista correspondiente
-?>
+            ?>
             <main>
                 <!-- Título principal de la página -->
-                <h5 class="p-2 text-center bg-primary text-white">Centro de Información</h5>
+                <h5 class="p-2 text-center bg-primary text-white">Detalle de Inasistencias</h5>
 
                 <!-- Contenedor para el historial de navegación -->
                 <div class="history-container my-2">
@@ -44,8 +46,9 @@ try {
                                 <div class="col-sm-10">
                                     <!-- Botón para regresar al curso anterior -->
                                     <h6 class="flex-wrap lang_sign">
-                                        <div tabindex="0" role="button" aria-label="Regresar a Categorias" >
-                                            <img src="../public/assets/img/icno-de-regresar.svg" alt="Ícono de regresar" style="margin-right: 5px;">
+                                        <div tabindex="0" role="button" aria-label="Regresar a Categorias">
+                                            <img src="../public/assets/img/icno-de-regresar.svg" alt="Ícono de regresar"
+                                                style="margin-right: 5px;">
                                             <u id="titulo-regresar">Regresar </u>
                                         </div>
                                     </h6>
@@ -57,11 +60,10 @@ try {
                         <div class="card m-4">
                             <ol class="breadcrumb m-2">
                                 <!-- TITULO CON BIENVENIDA AL USUARIO INGRESADO  -->
-                                <li class="m-2"><strong>Bienvenido/a</strong> <?php echo mb_strtoupper($user->firstname . ' ' . $user->lastname, 'UTF-8'); ?>
+                                <li class="m-2"><strong>Bienvenido/a</strong>
+                                    <?php echo mb_strtoupper($user->firstname . ' ' . $user->lastname, 'UTF-8'); ?>
                                 </li>
                             </ol>
-
-
                             <!-- Control de asistencias -->
                             <div class="row" id="cardschart">
                                 <div class="col-xl-10 col-lg-8">
@@ -72,7 +74,32 @@ try {
                                         </div>
                                         <div class="card-body">
                                             <div class="chart-area">
-                                                <canvas id="ChartAsistencia"></canvas>
+                                            <table id="table_asiss" class="display" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>1</th>
+                                                            <th>2</th>
+                                                            <th>3</th>
+                                                            <th>4</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                2
+                                                            </td>
+                                                            <td>
+                                                                2
+                                                            </td>
+                                                            <td>
+                                                                2
+                                                            </td>
+                                                            <td>
+                                                                2
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -85,7 +112,7 @@ try {
                 </div>
             </main>
             <!-- llamada Footer -->
-<?php include '../footer.php';
+            <?php include '../footer.php';
         } catch (PDOException $e) {
             // Captura de la excepción en caso de que el usuario no esté matriculado
             echo "Usuario no matriculado en curso: " . $e->getMessage() . "\n";

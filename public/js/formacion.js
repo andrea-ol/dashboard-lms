@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var fecha = selectedOption.getAttribute("data-fecha");
       var categoria = selectedOption.getAttribute("data-categoria");
       var idnumber = selectedOption.getAttribute("data-number");
+      document.getElementById("fic_id").value = id_curso;
 
       var fechaInicio = document.getElementById("fechaInicio").value;
       var fechaFin = document.getElementById("fechaFin").value;
