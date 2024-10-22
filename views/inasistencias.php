@@ -13,19 +13,36 @@ session_start(); // Iniciar la sesión
 // Incluir el header de la página
 include '../header.php';
 
+/////////////////////////////
+//Ojito cambiar a $id_curso
+$varchar = 9723;
+
 // Intentar ejecutar el bloque de código y capturar posibles errores relacionados con la sesión
 try {
     // Verificar si el usuario está autenticado y si la sesión no ha caducado
     if (isset($_SESSION['user']) && checkSessionTimeout()) {
         // Verificar si la solicitud es POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id_curso = $_POST['fic_id'];
-            print_r($id_curso);
+            //OJITO LUEGO CAMBIAR
+            //$id_curso = $_POST['fic_id'];
+            $id_curso = $varchar;
         }
+        $asistencia = obtener_asistencia($id_curso);
+
+        foreach ($asistencia as $asis) {
+            $user_id = $asis['student_id'];
+            $user_name = $asis['aprendiz'];
+            $teacher_id = $asis['id_teacher'];
+            $teacher_name = $asis['instructor'];
+            $date = $asis['fecha_asistencia'];
+            $estado_inasis = $asis['estado_inasistencia'];
+            $horas_tarde = $asis['horas_tardes'];
+        }
+
         // Intentar validar la pertenencia del usuario al curso y capturar posibles errores
         try {
             // Si el usuario pertenece al curso, se muestra la vista correspondiente
-            ?>
+?>
             <main>
                 <!-- Título principal de la página -->
                 <h5 class="p-2 text-center bg-primary text-white">Detalle de Inasistencias</h5>
@@ -105,7 +122,7 @@ try {
                 </div>
             </main>
             <!-- llamada Footer -->
-            <?php include '../footer.php';
+<?php include '../footer.php';
         } catch (PDOException $e) {
             // Captura de la excepción en caso de que el usuario no esté matriculado
             echo "Usuario no matriculado en curso: " . $e->getMessage() . "\n";
