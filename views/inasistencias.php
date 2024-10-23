@@ -28,17 +28,6 @@ try {
             $id_curso = $varchar;
         }
         $asistencia = obtener_asistencia($id_curso);
-
-        foreach ($asistencia as $asis) {
-            $user_id = $asis['student_id'];
-            $user_name = $asis['aprendiz'];
-            $teacher_id = $asis['id_teacher'];
-            $teacher_name = $asis['instructor'];
-            $date = $asis['fecha_asistencia'];
-            $estado_inasis = $asis['estado_inasistencia'];
-            $horas_tarde = $asis['horas_tardes'];
-        }
-
         // Intentar validar la pertenencia del usuario al curso y capturar posibles errores
         try {
             // Si el usuario pertenece al curso, se muestra la vista correspondiente
@@ -91,23 +80,41 @@ try {
                                         </div>
                                         <div class="card-body">
                                             <div class="chart-area">
-                                                <table id="table_asiss" class="display" style="width:100%">
+                                                <table id="table_asiss" class="table display" style="width:100%">
                                                     <thead class="thead_resultados">
                                                         <tr>
-                                                            <th>Columna 1</th>
-                                                            <th>Columna 2</th>
-                                                            <th>Columna 3</th>
-                                                            <th>Columna 4</th>
+                                                            <th>Id Aprendiz</th>
+                                                            <th>Nombre Aprendiz</th>
+                                                            <th>Instructor Responsable</th>
+                                                            <th>Fecha asistencia</th>
+                                                            <th>Estado Inasistencia</th>
+                                                            <th>Columna 7</th>
                                                         </tr>
                                                     </thead>
+                                                    <?php
+                                                      foreach ($asistencia as $asis) {
+                                                        $user_id = $asis['student_id'];
+                                                        $user_name = $asis['aprendiz'];
+                                                        $teacher_id = $asis['id_teacher'];
+                                                        $teacher_name = $asis['instructor'];
+                                                        $date = $asis['fecha_asistencia'];
+                                                        $estado_inasis = $asis['estado_inasistencia'];
+                                                        $horas_tarde = $asis['horas_tardes'];
+                                                    ?>
                                                     <tbody>
                                                         <tr>
-                                                            <td>2</td>
-                                                            <td>2</td>
-                                                            <td>2</td>
-                                                            <td>2</td>
+                                                        <td><?php echo $user_id; ?></td>
+                                                        <td><?php echo $user_name; ?></td>
+                                                        <td><?php echo $teacher_name; ?></td>
+                                                        <td><?php echo $date; ?></td>
+                                                        <td><?php echo $estado_inasis; ?></td>
+                                                        <td><?php echo $horas_tarde; ?></td>
+
                                                         </tr>
                                                     </tbody>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </table>
 
                                             </div>
