@@ -72,126 +72,131 @@ try {
                             </ol>
                             <!-- Control de asistencias -->
                             <div class="row" id="cardschart">
-                                <div class="col-xl-10 col-lg-8">
-                                    <!-- Area Chart -->
+                                <div class="col-xl-12 col-lg-12">
+                                    <!-- Card que continen la tabla de asistencias-->
                                     <div class="card shadow mb-4">
+                                        <!-- Ajuste informacion del header -->
                                         <div class="card-header py-4">
                                             <h6 class="m-0 font-weight-bold text-primary">Reporte de Asistencias</h6>
                                         </div>
                                         <div class="card-body">
-                                            <div class="chart-area">
-                                                <table id="table_asiss" class="table display" style="width:100%">
-                                                    <thead class="thead_resultados">
-                                                        <tr>
-                                                            <th colspan="3">Datos Personales</th>
-                                                            <?php
-                                                            // Recorre las fechas una sola vez y las ordena en orden ascendente
-                                                            $fechas_unicas = [];
-                                                            foreach ($asistencia as $asis) {
-                                                                $date = $asis['fecha_asistencia'];
-                                                                if (!in_array($date, $fechas_unicas)) {
-                                                                    $fechas_unicas[] = $date;
-                                                                }
-                                                            }
-                                                            // Ordena las fechas en orden ascendente
-                                                            sort($fechas_unicas);
-
-                                                            // Imprime los encabezados de las fechas, cada una con dos subcolumnas
-                                                            foreach ($fechas_unicas as $date) {
-                                                                echo "<th colspan='2'>" . $date . "</th>"; // Fecha como encabezado, abarca dos columnas (Estado y Horas tarde)
-                                                            }
-                                                            ?>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Id Aprendiz</th>
-                                                            <th>Nombre Aprendiz</th>
-                                                            <th>Instructor Responsable</th>
-                                                            <?php
-                                                            // Agrega las sub-columnas para Estado Inasistencia y Horas Tarde debajo de cada fecha
-                                                            foreach ($fechas_unicas as $date) {
-                                                                echo "<th>Estado Inasistencia</th>";
-                                                                echo "<th>Cantidad de Horas tarde</th>";
-                                                            }
-                                                            ?>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                                            <table id="table_asiss" class="table display" style="width:100%">
+                                                <thead id="resultados-thead">
+                                                    <tr>
+                                                        <th colspan="3">Datos Personales</th>
                                                         <?php
-                                                        // Agrupa por estudiante utilizando su ID
-                                                        $aprendices = [];
-
-                                                        // Recorre el array de asistencia para agrupar por estudiante
+                                                        // Recorre las fechas una sola vez y las ordena en orden ascendente
+                                                        $fechas_unicas = [];
                                                         foreach ($asistencia as $asis) {
-                                                            $user_id = $asis['student_id'];
-                                                            $aprendices[$user_id]['aprendiz'] = $asis['aprendiz']; // Nombre del aprendiz
-                                                            $aprendices[$user_id]['instructores'][] = [
-                                                                'instructor' => $asis['instructor'],
-                                                                'fecha_asistencia' => $asis['fecha_asistencia'],
-                                                                'estado_inasistencia' => $asis['estado_inasistencia'],
-                                                                'horas_tardes' => $asis['horas_tardes']
+                                                            $date = $asis['fecha_asistencia'];
+                                                            if (!in_array($date, $fechas_unicas)) {
+                                                                $fechas_unicas[] = $date;
+                                                            }
+                                                        }
+                                                        // Ordena las fechas en orden ascendente
+                                                        sort($fechas_unicas);
+
+                                                        // Imprime los encabezados de las fechas, cada una con dos subcolumnas
+                                                        foreach ($fechas_unicas as $date) {
+                                                            echo "<th colspan='2'>" . $date . "</th>"; // Fecha como encabezado, abarca dos columnas (Estado y Horas tarde)
+                                                        }
+                                                        ?>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Id Aprendiz</th>
+                                                        <th>Nombre Aprendiz</th>
+                                                        <th>Instructor Responsable</th>
+                                                        <?php
+                                                        // Agrega las sub-columnas para Estado Inasistencia y Horas Tarde debajo de cada fecha
+                                                        foreach ($fechas_unicas as $date) {
+                                                            echo "<th>Estado Inasistencia</th>";
+                                                            echo "<th>Cantidad de Horas tarde</th>";
+                                                        }
+                                                        ?>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    // Crear un array para agrupar por estudiante
+                                                    $estudiantes = [];
+                                                    foreach ($asistencia as $asis) {
+                                                        $user_id = $asis['student_id'];
+                                                        if (!isset($estudiantes[$user_id])) {
+                                                            $estudiantes[$user_id] = [
+                                                                'nombre' => $asis['aprendiz'],
+                                                                'instructores' => [],
+                                                                'asistencias' => []
                                                             ];
                                                         }
 
-                                                        // Imprimir la tabla agrupada por aprendiz
-                                                        foreach ($aprendices as $user_id => $data) {
-                                                            $user_name = $data['aprendiz'];
-
-                                                            // Imprime una nueva fila por cada aprendiz
-                                                            echo "<tr>";
-                                                            echo "<td>" . $user_id . "</td>"; // Id del Aprendiz (una sola vez)
-                                                            echo "<td>" . $user_name . "</td>"; // Nombre del Aprendiz (una sola vez)
-
-                                                            // Ahora imprime los instructores y los datos de asistencia
-                                                            $instructors_printed = false;
-                                                            foreach ($data['instructores'] as $instructor_data) {
-                                                                if ($instructors_printed) {
-                                                                    // Si ya imprimimos los datos del aprendiz, saltamos a la columna del instructor en adelante
-                                                                    echo "<tr><td></td><td></td>";
-                                                                }
-
-                                                                // Imprime el nombre del instructor responsable
-                                                                echo "<td>" . $instructor_data['instructor'] . "</td>";
-
-                                                                // Imprime los datos correspondientes a cada fecha
-                                                                foreach ($fechas_unicas as $date) {
-                                                                    if ($instructor_data['fecha_asistencia'] == $date) {
-                                                                        $estado_inasis = $instructor_data['estado_inasistencia'];
-                                                                        $horas_tarde = $instructor_data['horas_tardes'];
-
-                                                                        // Estado Calificación en texto
-                                                                        $state1 = "SUSPENDIDO";
-                                                                        $state2 = "NO ASISTIO";
-                                                                        $state3 = "ASISTIO";
-                                                                        $state4 = "LLEGO TARDE";
-                                                                        $state5 = "EXCUSA MEDICA";
-
-                                                                        if ($estado_inasis == -1) {
-                                                                            echo "<td>" . $state1 . "</td>";
-                                                                        } else if ($estado_inasis == 0) {
-                                                                            echo "<td>" . $state2 . "</td>";
-                                                                        } else if ($estado_inasis == 1) {
-                                                                            echo "<td>" . $state3 . "</td>";
-                                                                        } else if ($estado_inasis == 2) {
-                                                                            echo "<td>" . $state4 . "</td>";
-                                                                        } else if ($estado_inasis == 3) {
-                                                                            echo "<td>" . $state5 . "</td>";
-                                                                        }
-
-                                                                        echo "<td>" . $horas_tarde . "</td>";
-                                                                    } else {
-                                                                        echo "<td></td><td></td>"; // Deja las celdas vacías si no hay coincidencia de fecha
-                                                                    }
-                                                                }
-
-                                                                echo "</tr>"; // Cierra la fila de este instructor para el aprendiz actual
-                                                                $instructors_printed = true;
-                                                            }
+                                                        if (!in_array($asis['instructor'], $estudiantes[$user_id]['instructores'])) {
+                                                            $estudiantes[$user_id]['instructores'][] = $asis['instructor'];
                                                         }
-                                                        ?>
-                                                    </tbody>
-                                                </table>
 
-                                            </div>
+                                                        $estudiantes[$user_id]['asistencias'][$asis['instructor']][$asis['fecha_asistencia']] = [
+                                                            'estado_inasistencia' => $asis['estado_inasistencia'],
+                                                            'horas_tardes' => $asis['horas_tardes']
+                                                        ];
+                                                    }
+
+                                                    // Imprimir la tabla con los datos agrupados
+                                                    foreach ($estudiantes as $user_id => $estudiante) {
+                                                        $num_instructores = count($estudiante['instructores']);
+                                                        $first_row = true;
+
+                                                        foreach ($estudiante['instructores'] as $instructor) {
+                                                            echo "<tr class='group-row' data-student-id='" . $user_id . "'>";
+
+                                                            // Datos del estudiante
+                                                            if ($first_row) {
+                                                                // Agregamos una clase para identificar las celdas agrupadas
+                                                                echo "<td class='student-cell' data-student-id='" . $user_id . "'>" . $user_id . "</td>";
+                                                                echo "<td class='student-cell' data-student-id='" . $user_id . "'>" . $estudiante['nombre'] . "</td>";
+                                                            } else {
+                                                                // Celdas ocultas para mantener la estructura
+                                                                echo "<td class='hidden-cell'></td>";
+                                                                echo "<td class='hidden-cell'></td>";
+                                                            }
+
+                                                            echo "<td>" . $instructor . "</td>";
+
+                                                            // Estados para cada fecha
+                                                            foreach ($fechas_unicas as $date) {
+                                                                if (isset($estudiante['asistencias'][$instructor][$date])) {
+                                                                    $estado_inasis = $estudiante['asistencias'][$instructor][$date]['estado_inasistencia'];
+                                                                    $horas_tarde = $estudiante['asistencias'][$instructor][$date]['horas_tardes'];
+
+                                                                    switch ($estado_inasis) {
+                                                                        case -1:
+                                                                            echo "<td>SUSPENDIDO</td>";
+                                                                            break;
+                                                                        case 0:
+                                                                            echo "<td>NO ASISTIO</td>";
+                                                                            break;
+                                                                        case 1:
+                                                                            echo "<td>ASISTIO</td>";
+                                                                            break;
+                                                                        case 2:
+                                                                            echo "<td>LLEGO TARDE</td>";
+                                                                            break;
+                                                                        case 3:
+                                                                            echo "<td>EXCUSA MEDICA</td>";
+                                                                            break;
+                                                                    }
+                                                                    echo "<td>" . $horas_tarde ."</td>";
+                                                                } else {
+                                                                    echo "<td></td><td></td>";
+                                                                }
+                                                            }
+
+                                                            echo "</tr>";
+                                                            $first_row = false;
+                                                        }
+                                                    }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+
                                         </div>
                                     </div>
                                 </div>

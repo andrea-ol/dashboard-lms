@@ -13832,3 +13832,16 @@ tr:nth-child(odd) td {
   background-color: yellow;
   /* Cambia el color según tu preferencia */
 }
+
+.rowspan-cell {
+  background-color: #f8f9fa;
+  vertical-align: middle !important;
+}
+
+.student-group-row {
+  background-color: #f8f9fa;
+}
+
+.estado-cell, .horas-cell {
+  text-align: center;
+}
