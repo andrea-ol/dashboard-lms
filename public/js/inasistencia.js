@@ -4,7 +4,7 @@ $(document).ready(function () {
         language: {
             url: "https://cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json",
         },
-        colReorder: true,
+        colReorder: false,
         scrollX: true,
         paging: true,
         pageLength: 10, // # de datos por página
