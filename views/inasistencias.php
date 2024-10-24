@@ -27,9 +27,43 @@ try {
             //$id_curso = $_POST['fic_id'];
             $id_curso = $varchar;
         }
-        $asistencia = obtener_asistencia($id_curso);
         // Intentar validar la pertenencia del usuario al curso y capturar posibles errores
         try {
+            // Función para calcular el rango de fechas de una semana específica
+            function getWeekStartEnd($weekNumber, $year)
+            {
+                $startOfYear = new DateTime("$year-01-01");
+
+                // Ajustar el día de la semana a lunes (si no es lunes, la semana 1 podría no empezar en el primer día del año)
+                if ($startOfYear->format('N') != 1) {
+                    $startOfYear->modify('next monday');
+                }
+
+                // Calcular la fecha de inicio de la semana
+                $daysOffset = ($weekNumber - 1) * 7;
+                $startDate = clone $startOfYear;
+                $startDate->modify("+$daysOffset days");
+
+                // Calcular la fecha de fin de la semana
+                $endDate = clone $startDate;
+                $endDate->modify('+6 days');
+
+                return [
+                    'startDate' => $startDate->format('Y-m-d'),
+                    'endDate' => $endDate->format('Y-m-d')
+                ];
+            }
+
+            // Obtener la semana seleccionada desde el formulario (POST)
+            $selectedWeek = isset($_POST['weekSelect']) ? intval($_POST['weekSelect']) : 1;
+            $currentYear = date('Y'); // Año actual
+
+            // Obtener el rango de fechas de la semana seleccionada
+            $weekRange = getWeekStartEnd($selectedWeek, $currentYear);
+
+            // Variables con fechas de inicio y fin
+            $startDate = $weekRange['startDate'];
+            $endDate = $weekRange['endDate'];
             // Si el usuario pertenece al curso, se muestra la vista correspondiente
 ?>
             <main>
@@ -80,11 +114,29 @@ try {
                                             <h6 class="m-0 font-weight-bold text-primary">Reporte de Asistencias</h6>
                                         </div>
                                         <div class="card-body">
+                                            <form id="weekForm" method="POST">
+                                                <label for="weekSelect">Seleccione una semana:</label>
+                                                <select id="weekSelect" name="weekSelect" onchange="this.form.submit()">
+                                                    <?php
+                                                    // Generar las opciones de las semanas del año
+                                                    for ($i = 1; $i <= 52; $i++) {
+                                                        echo "<option value='$i'" . ($i == $selectedWeek ? ' selected' : '') . ">Semana $i</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <!-- Mostrar las fechas calculadas por PHP -->
+                                                <p>Fecha de inicio: <span id="startWeek"><?= $startDate ?></span></p>
+                                                <p>Fecha de fin: <span id="endWeek"><?= $endDate ?></span></p>
+                                                <!-- Campos ocultos para almacenar las fechas y enviarlas -->
+                                                <input type="hidden" id="startDate" name="startDate" value="<?= $startDate ?>">
+                                                <input type="hidden" id="endDate" name="endDate" value="<?= $endDate ?>">
+                                            </form>
                                             <table id="table_asiss" class="table display" style="width:100%">
                                                 <thead id="resultados-thead">
                                                     <tr>
                                                         <th colspan="3">Datos Personales</th>
                                                         <?php
+                                                        $asistencia = obtener_asistencia($id_curso, $startDate, $endDate);
                                                         // Recorre las fechas una sola vez y las ordena en orden ascendente
                                                         $fechas_unicas = [];
                                                         foreach ($asistencia as $asis) {
@@ -183,7 +235,7 @@ try {
                                                                             echo "<td>EXCUSA MEDICA</td>";
                                                                             break;
                                                                     }
-                                                                    echo "<td>" . $horas_tarde ."</td>";
+                                                                    echo "<td>" . $horas_tarde . "</td>";
                                                                 } else {
                                                                     echo "<td></td><td></td>";
                                                                 }

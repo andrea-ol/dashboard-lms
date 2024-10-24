@@ -1,5 +1,4 @@
 <?php
-
 // FUNCION PARA ALMACENAR ERRORES EN LA BASE DE DATOS DE INTEGRACION EN EL ESQUEMA LOG
 function log_error($replica, $type, $code, $description)
 {
@@ -19,12 +18,16 @@ function log_error($replica, $type, $code, $description)
 }
 
 // FUNCION PARA OBTENER EL NOMBRE DEL CURSO EN CUESTION 
-function obtener_asistencia($id_curso)
+function obtener_asistencia($id_curso, $startDate, $endDate)
 {
     global $replica, $errorPage, $conn;
     try {
-        $query = $conn->prepare("SELECT * FROM obtener_asistencia_curso(:curso)");
-        $query->execute([':curso' => $id_curso]);
+        $query = $conn->prepare("SELECT * FROM obtener_asistencia_curso(:id_curso, :fecha_inicio, :fecha_fin)");
+        $query->bindParam(':id_curso', $id_curso, PDO::PARAM_INT);
+        $query->bindParam(':fecha_inicio', $startDate, PDO::PARAM_STR);
+        $query->bindParam(':fecha_fin', $endDate, PDO::PARAM_STR);
+        // Ejecutar la consulta
+        $query->execute();
         $asistencia = $query->fetchAll(PDO::FETCH_ASSOC);
         return $asistencia;
     } catch (PDOException $e) {
