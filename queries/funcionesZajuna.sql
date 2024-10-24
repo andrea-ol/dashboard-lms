@@ -457,7 +457,7 @@ END $$;
 
 -----------------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION obtener_asistencia_curso(id_curso BIGINT)
+CREATE OR REPLACE FUNCTION obtener_asistencia_curso(id_curso BIGINT, fechaInicio VARCHAR, fechaFin VARCHAR)
 RETURNS TABLE (
     student_id BIGINT,
     aprendiz TEXT,
@@ -474,7 +474,7 @@ BEGIN
         s.firstname || ' ' || s.lastname AS aprendiz,
         u.id AS id_teacher,
         u.firstname || ' ' || u.lastname AS instructor,
-        (attendance_item->>'DATE')::DATE AS fecha_asistencia, -- Convertimos a DATE
+        (attendance_item->>'DATE')::DATE AS fecha_asistencia,
         attendance_item->>'ATTENDANCE' AS estado_inasistencia,
         CASE
             WHEN (attendance_item->>'ATTENDANCE')::int = 2 THEN 
@@ -490,6 +490,7 @@ BEGIN
     LEFT JOIN 
         mdl_user u ON (attendance_item->>'TEACHER_ID')::int = u.id 
     WHERE 
-        ap.course_id = id_curso;
+        ap.course_id = id_curso 
+        AND (attendance_item->>'DATE')::DATE BETWEEN TO_DATE(fechaInicio, 'YYYY-MM-DD') AND TO_DATE(fechaFin, 'YYYY-MM-DD');
 END;
 $$ LANGUAGE plpgsql;
