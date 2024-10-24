@@ -115,21 +115,35 @@ try {
                                         </div>
                                         <div class="card-body">
                                             <form id="weekForm" method="POST">
-                                                <label for="weekSelect">Seleccione una semana:</label>
-                                                <select id="weekSelect" name="weekSelect" onchange="this.form.submit()">
-                                                    <?php
-                                                    // Generar las opciones de las semanas del año
-                                                    for ($i = 1; $i <= 52; $i++) {
-                                                        echo "<option value='$i'" . ($i == $selectedWeek ? ' selected' : '') . ">Semana $i</option>";
-                                                    }
-                                                    ?>
-                                                </select>
-                                                <!-- Mostrar las fechas calculadas por PHP -->
-                                                <p>Fecha de inicio: <span id="startWeek"><?= $startDate ?></span></p>
-                                                <p>Fecha de fin: <span id="endWeek"><?= $endDate ?></span></p>
-                                                <!-- Campos ocultos para almacenar las fechas y enviarlas -->
-                                                <input type="hidden" id="startDate" name="startDate" value="<?= $startDate ?>">
-                                                <input type="hidden" id="endDate" name="endDate" value="<?= $endDate ?>">
+
+
+                                                <div class="container mb-4">
+                                                    <div class="row">
+                                                        <div class="col-sm d-flex flex-column align-items-center justify-content-center">
+                                                            <select id="weekSelect" name="weekSelect" class="form-select" onchange="this.form.submit()">
+                                                                <?php
+                                                                // Generar las opciones de las semanas del año
+                                                                for ($i = 1; $i <= 52; $i++) {
+                                                                    echo "<option value='$i'" . ($i == $selectedWeek ? ' selected' : '') . ">Semana $i</option>";
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm d-flex flex-column align-items-center justify-content-center">
+                                                            <p class="text-center mb-0">Fecha de inicio:</p>
+                                                            <span id="startWeek"><?= $startDate ?></span>
+                                                            <input type="hidden" id="startDate" name="startDate" value="<?= $startDate ?>">
+                                                        </div>
+                                                        <div class="col-sm d-flex flex-column align-items-center justify-content-center">
+                                                            <p class="text-center mb-0">Fecha de fin:</p>
+                                                            <span id="endWeek"><?= $endDate ?></span>
+                                                            <input type="hidden" id="endDate" name="endDate" value="<?= $endDate ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
                                             </form>
                                             <table id="table_asiss" class="table display" style="width:100%">
                                                 <thead id="resultados-thead">
