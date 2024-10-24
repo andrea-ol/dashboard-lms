@@ -95,17 +95,16 @@ try {
                                             </div>
                                         </div>
 
-
                                         <div class="form-row" id="inputsTime" style="display: none;">
-                                            <div class="col-md-3 mb-3">
-                                                <label for="fechaInicio">Fecha de inicio:</label>
+                                            <div class="form-group col-md-3 me-2">
+                                                <label class="form-label" for="fechaInicio">Fecha de inicio:</label>
                                                 <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
                                             </div>
-                                            <div class="col-md-3 mb-3">
-                                                <label for="fechaFin">Fecha de fin:</label>
+                                            <div class="form-group col-md-3 me-2">
+                                                <label class="form-label" for="fechaFin">Fecha de fin:</label>
                                                 <input type="date" class="form-control" id="fechaFin" name="fechaFin">
                                             </div>
-                                            <div class="col-md-4 mb-3">
+                                            <div class="form-group">
                                                 <button class="btn btn-success mt-2" type="button" id="consultarBtn">Consultar</button>
                                             </div>
                                         </div>
@@ -115,7 +114,7 @@ try {
                             </div>
                             <!-- Control de asistencias -->
                             <div class="row" id="cardschart" style="display: none;">
-                                
+
                                 <div>
                                     <h2 id="estudiantesCount"></span></h2>
                                 </div>
@@ -130,7 +129,7 @@ try {
                                         </div>
                                         <div class="card-body">
                                             <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                                                 Analisis Inasistencias
                                             </button>
                                             <div class="chart-area">

@@ -86,9 +86,8 @@ try {
                                 <div class="col-sm-10">
                                     <!-- Botón para regresar al curso anterior -->
                                     <h6 class="flex-wrap lang_sign">
-                                        <div tabindex="0" role="button" aria-label="Regresar a Categorias">
-                                            <img src="../public/assets/img/icno-de-regresar.svg" alt="Ícono de regresar"
-                                                style="margin-right: 5px;">
+                                        <div tabindex="0" role="button" aria-label="Regresar a Categorias" >
+                                            <img src="../public/assets/img/icno-de-regresar.svg" alt="Ícono de regresar" id="back-button" style="margin-right: 5px;">
                                             <u id="titulo-regresar">Regresar </u>
                                         </div>
                                     </h6>
@@ -117,7 +116,6 @@ try {
                                             <form id="weekForm" method="POST">
                                                 <div class="container mb-4">
                                                     <div class="row">
-                                                           
                                                         <div class="form-group row col-sm">
                                                             <label for="inputEmail3" class="col-sm col-form-label">Seleccione una semana:</label>
                                                             <div class="col-sm">
