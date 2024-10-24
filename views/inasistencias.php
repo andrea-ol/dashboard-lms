@@ -114,12 +114,13 @@ try {
                                             <h6 class="m-0 font-weight-bold text-primary">Reporte de Asistencias</h6>
                                         </div>
                                         <div class="card-body">
-                                            <form id="weekForm" method="POST">
-
-
+                                            <form id="weekForm">
                                                 <div class="container mb-4">
                                                     <div class="row">
-                                                        <div class="col-sm d-flex flex-column align-items-center justify-content-center">
+                                                           
+                                                        <div class="form-group row col-sm">
+                                                            <label for="inputEmail3" class="col-sm col-form-label">Seleccione una semana:</label>
+                                                            <div class="col-sm">
                                                             <select id="weekSelect" name="weekSelect" class="form-select" onchange="this.form.submit()">
                                                                 <?php
                                                                 // Generar las opciones de las semanas del año
@@ -128,7 +129,9 @@ try {
                                                                 }
                                                                 ?>
                                                             </select>
+                                                            </div>
                                                         </div>
+                                                       
                                                         <div class="col-sm d-flex flex-column align-items-center justify-content-center">
                                                             <p class="text-center mb-0">Fecha de inicio:</p>
                                                             <span id="startWeek"><?= $startDate ?></span>
@@ -141,9 +144,6 @@ try {
                                                         </div>
                                                     </div>
                                                 </div>
-
-
-
                                             </form>
                                             <table id="table_asiss" class="table display" style="width:100%">
                                                 <thead id="resultados-thead">
