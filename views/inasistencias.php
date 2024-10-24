@@ -114,7 +114,7 @@ try {
                                             <h6 class="m-0 font-weight-bold text-primary">Reporte de Asistencias</h6>
                                         </div>
                                         <div class="card-body">
-                                            <form id="weekForm">
+                                            <form id="weekForm" method="POST">
                                                 <div class="container mb-4">
                                                     <div class="row">
                                                            
