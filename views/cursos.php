@@ -115,12 +115,12 @@ try {
                             </div>
                             <!-- Control de asistencias -->
                             <div class="row" id="cardschart" style="display: none;">
-
+                                
                                 <div>
-                                    <h2 id="estudiantesCount"><span class="badge badge-secondary">New</span></h2>
+                                    <h2 id="estudiantesCount"></span></h2>
                                 </div>
                                 <div>
-                                    <h2 id="suspendidosCount"><span class="badge badge-secondary">New</span></h2>
+                                    <h2 id="suspendidosCount"></span></h2>
                                 </div>
                                 <div class="col-xl-10 col-lg-8">
                                     <!-- Area Chart -->
